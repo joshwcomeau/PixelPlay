@@ -5,4 +5,4 @@ function GameController($scope) {
 GameController.prototype.someMethod = function() {};
 
 GameController.$inject = ['$scope'];
-angular.module('pixelPlay.things').controller('GameController', ['$scope', GameController]);
+angular.module('pixelPlay.game').controller('GameController', ['$scope', GameController]);
