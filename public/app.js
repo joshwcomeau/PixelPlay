@@ -1,1 +1,1 @@
-angular.module('pixelPlay', ['ngRoute', 'ngResource', 'appRoutes', 'mainApp.things', 'mainApp.dashboard']);
+angular.module('pixelPlay', ['ngRoute', 'ngResource', 'appRoutes', 'mainApp.game', 'mainApp.dashboard']);

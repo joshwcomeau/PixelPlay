@@ -6,20 +6,13 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
       controllerAs: 'dash'
     })
 
-    // THINGS ===================================================================
+    // GAME ===================================================================
     // GET :index
-    .when('/things', {
-      templateUrl:  '/components/things/things.index.html',
-      controller:   'ThingController',
-      controllerAs: 'thing'
+    .when('/game', {
+      templateUrl:  '/components/game/game.index.html',
+      controller:   'GameController',
+      controllerAs: 'game'
     })
-    
-    // GET :show
-    .when('/things/:id', {
-      templateUrl:  '/components/things/things.show.html',
-      controller:   'ThingController',
-      controllerAs: 'thing'
-    });
 
 
     $locationProvider.html5Mode(true);
