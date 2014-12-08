@@ -26,3 +26,10 @@ node_modules
 
 # Users Environment Variables
 .lock-wscript
+
+# Mac BS
+.DS_Store
+
+# NPM and Bower libraries
+node_modules
+public/assets/libs
