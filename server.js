@@ -10,7 +10,7 @@ var express         = require('express'),
 var db_url = process.env.DB_URL || 'mongodb://localhost/pixelplay';
     port   = process.env.PORT   || 3000;
 
-mongoose.connect(db.url);  
+mongoose.connect(db_url);  
 
 // BodyParser lets us use POST parameters as JS objects.
 app.use(bodyParser.json());   
