@@ -1,1 +1,1 @@
-angular.module("mainApp.things", []);
+angular.module("pixelPlay.things", []);

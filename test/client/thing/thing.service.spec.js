@@ -1,7 +1,7 @@
 describe("Thing service", function() {
   var thingService, httpBackend, mockResponse;
 
-  beforeEach(module("mainApp"));
+  beforeEach(module("pixelPlay"));
 
   beforeEach(inject(function(_thingService_, $httpBackend) {
     thingService = _thingService_;

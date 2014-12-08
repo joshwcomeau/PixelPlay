@@ -5,4 +5,4 @@ function ThingController($scope) {
 ThingController.prototype.someMethod = function() {};
 
 ThingController.$inject = ['$scope'];
-angular.module('mainApp.things').controller('ThingController', ['$scope', ThingController]);
+angular.module('pixelPlay.things').controller('ThingController', ['$scope', ThingController]);

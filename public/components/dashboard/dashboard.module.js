@@ -1,1 +1,1 @@
-angular.module("mainApp.dashboard", []);
+angular.module("pixelPlay.dashboard", []);

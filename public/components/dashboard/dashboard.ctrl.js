@@ -5,4 +5,4 @@ function DashboardController($scope) {
 DashboardController.prototype.someMethod = function() {};
 
 DashboardController.$inject = ['$scope'];
-angular.module('mainApp.dashboard').controller('DashboardController', ['$scope', DashboardController]);
+angular.module('pixelPlay.dashboard').controller('DashboardController', ['$scope', DashboardController]);
