@@ -1,3 +1,3 @@
-module.exports = {
-  url: 'mongodb://localhost/pixelplay'
-}
+// module.exports = {
+//   url: 'mongodb://localhost/pixelplay'
+// }
