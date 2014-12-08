@@ -1,0 +1,1 @@
+angular.module('mainApp', ['ngRoute', 'ngResource', 'appRoutes', 'mainApp.things', 'mainApp.dashboard']);
