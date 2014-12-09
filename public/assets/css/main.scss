@@ -1,12 +1,9 @@
 /* Put all global, site-wide SCSS here */
 /* Model-specific CSS should go into its own SCSS file. */
+@import 'variables';
 
-.navbar {
-  background: #CCC;
-  
-  transform: rotate(-1deg);
-  margin-top: 10px;
-}
-.navbar h2 {
-  border-radius: 10px;
+body {
+  background: #222;
+  padding: 0;
+  margin: 0;
 }

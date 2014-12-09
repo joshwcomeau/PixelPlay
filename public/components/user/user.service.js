@@ -1,4 +1,4 @@
-angular.module('pixelPlay').service('User', ['$rootScope', function($rootScope) {
+angular.module('pixelPlay').service('User', ['$rootScope', 'Score', function($rootScope, Score) {
   var user = this;
 
   user.currentUser = null;
@@ -7,11 +7,11 @@ angular.module('pixelPlay').service('User', ['$rootScope', function($rootScope) 
 
   user.login = function() {
     _500px.login(user.updateUser);
-  }
+  };
 
   user.logout = function() {
     _500px.logout(user.updateUser);
-  }
+  };
 
   // This is passed in as the callback to 500px's getAuthorizationStatus().
   user.updateUser = function(res) {
@@ -24,7 +24,7 @@ angular.module('pixelPlay').service('User', ['$rootScope', function($rootScope) 
         $rootScope.$broadcast('userAuthenticated', response.data.user);
       });
     } else {
-      console.log("updateUser is logging out")
+      console.log("updateUser is logging out");
       user.currentUser = user.data = null;
     }
   };

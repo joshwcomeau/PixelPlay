@@ -1,0 +1,29 @@
+@import 'variables';
+
+#wrapper > header {
+  background: #FFF;
+  height: $headerHeight;
+
+  h1 {
+    margin: 0 0 0 4rem;
+    padding: 0;
+    line-height: $headerHeight;
+  }
+
+  .logosquares {
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    top: 1.75rem;
+    left: 1.75rem;
+    transform: rotate(45deg);
+
+    & > div {
+      position: relative;
+      width: 48%;
+      height: 48%;
+      margin: 0 1% 1% 0;
+      float: left;
+    }
+  }
+}

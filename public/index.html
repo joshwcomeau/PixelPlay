@@ -1,6 +1,6 @@
 <!-- public/index.html -->
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="pixelPlay">
 <head>
   <meta charset="UTF-8">
   <base href="/">
@@ -19,8 +19,16 @@
   <!-- ANGULAR CUSTOM -->
   <script src="assets/js/main.min.js"></script>
 </head>
-<body ng-app="pixelPlay">
-  <!-- ANGULAR DYNAMIC CONTENT -->
-  <div ng-view></div>
+<body ng-controller="GlobalController as global">
+  <div id="wrapper">
+
+    <header ng-include="'/components/header/header.html'"></header>
+
+    <!-- ANGULAR DYNAMIC CONTENT -->
+    <div ng-view></div>
+  </div>
+    
+  
+  
 </body>
 </html>

@@ -1,9 +1,7 @@
 angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
   $routeProvider
     .when('/', {
-      templateUrl:  '/components/dashboard/dashboard.index.html',
-      controller:   'DashboardController',
-      controllerAs: 'dash'
+      templateUrl:  '/components/dashboard/dashboard.index.html'
     })
 
     // GAME ===================================================================
@@ -13,7 +11,6 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
       controller:   'GameController',
       controllerAs: 'game'
     });
-
 
 
     $locationProvider.html5Mode(true);
