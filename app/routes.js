@@ -33,6 +33,12 @@ module.exports = function(app) {
   //   return res.json(thing);
   // });
 
+  // 500px callback routes - bypass Angular entirely, just save the cookie and close.
+  app.get('/500px/callback.html', function(req, res) {
+    console.log("GET: 500px/callback.html");
+    res.sendFile('callback.html', { root: path.join(__dirname, '../public') });    
+  });
+
 
   // Client routes =========================================
 

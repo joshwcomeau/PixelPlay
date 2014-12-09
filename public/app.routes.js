@@ -12,13 +12,6 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
       templateUrl:  '/components/game/game.index.html',
       controller:   'GameController',
       controllerAs: 'game'
-    })
-
-    // USER CALLBACK ==========================================================
-    .when('/500px/callback.html', {
-      templateUrl:  '/components/callback/callback.html',
-      controller:   'CallbackController',
-      controllerAs: 'cb'
     });
 
 
