@@ -1,11 +1,11 @@
 <h1>Dashboard Index</h1>
 <p>{{dash.tagline}}</p>
 
-<p ng-if="dash.current_user">Logged in as {{dash.current_user.fullname}}</p>
+<p ng-show="dash.currentUser">Logged in as {{dash.currentUser.fullname}}. <a href="#" ng-click="dash.user.logout()">Log out.</a></p>
 
 
-{{dash}}
+{{dash.currentUser}}
 
-<a href="#" ng-click="dash.login()">Login to 500px</a>
-
-<a href="#" ng-click="dash.update()">Get Authorization Status</a>
+<p ng-hide="dash.currentUser">
+  <a href="#" ng-click="dash.user.login()">Login to 500px</a>
+</p>

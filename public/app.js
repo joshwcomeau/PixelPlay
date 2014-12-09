@@ -7,12 +7,6 @@ angular
 
     console.log("500px initialized");
 
-    _500px.getAuthorizationStatus();
+    _500px.getAuthorizationStatus(User.updateUser);
 
-    _500px.on('authorization_obtained', function () {
-      console.log("Authorization has been obtained, running");
-      $rootScope.$apply(function() {
-        User.update_user('authorized');
-      });
-    });
-  }]);
+}]);

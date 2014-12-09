@@ -1,21 +1,31 @@
 angular.module('pixelPlay').service('User', ['$rootScope', function($rootScope) {
   var user = this;
 
-  user.current_user = null;
+  user.currentUser = null;
+  user.data        = null;
 
 
-  // This is passed in as the callback to 500px's login().
-  // 'res' is a simple string letting us know if they've been approved or not.
-  user.update_user = function(res) {
-    console.log("Updating user");
-    if ( res == 'authorized' ) {
-      console.log("user is authorized!");
-      // Cool, we've got their permission. Let's get their username.
+  user.login = function() {
+    _500px.login(user.updateUser);
+  }
+
+  user.logout = function() {
+    _500px.logout(user.updateUser);
+  }
+
+  // This is passed in as the callback to 500px's getAuthorizationStatus().
+  user.updateUser = function(res) {
+    if ( res === 'authorized' ) {
+      // Cool, we've got their permission. Let's get their user data.
       _500px.api('/users', function (response) {
         console.log(response);
-        user.current_user = response.data.user;
+        user.currentUser = response.data.user;
+        user.data        = response;
         $rootScope.$broadcast('userAuthenticated', response.data.user);
       });
+    } else {
+      console.log("updateUser is logging out")
+      user.currentUser = user.data = null;
     }
   };
 }]);
