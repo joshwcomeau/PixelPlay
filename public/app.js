@@ -1,6 +1,6 @@
 angular
   .module('pixelPlay', ['ngRoute', 'ngResource', 'appRoutes', 'pixelPlay.game', 'pixelPlay.dashboard'])
-  .run(['User', function(User) {
+  .run(['User', '$rootScope', function(User, $rootScope) {
     _500px.init({
       sdk_key: '1e6cd00470800d39b07106a70a650cdf88277901'
     });
@@ -11,6 +11,8 @@ angular
 
     _500px.on('authorization_obtained', function () {
       console.log("Authorization has been obtained, running");
-      User.update_user('authorized');
+      $rootScope.$apply(function() {
+        User.update_user('authorized');
+      });
     });
   }]);

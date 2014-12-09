@@ -1,6 +1,15 @@
 function DashboardController($scope, User) {
+  var dash = this;
+
   this.tagline = "Welcome to the dashboard.";
-  this.userService = User;
+  
+
+  $scope.$on("userAuthenticated", function(e, counter) {
+    $scope.$apply(function() {
+      dash.userService = User;
+      // dash.current_user = User.current_user;
+    });
+  });
 }
 
 DashboardController.prototype.login = function() {
@@ -8,8 +17,8 @@ DashboardController.prototype.login = function() {
   _500px.login(this.userService.update_user);
 };
 
-DashboardController.prototype.getAuthStatus = function() {
-  alert(_500px.getAuthorizationStatus());
+DashboardController.prototype.update = function() {
+  this.current_user = User.current_user;
 };
 
 DashboardController.$inject = ['$scope', 'User'];
