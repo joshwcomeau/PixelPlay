@@ -14,6 +14,14 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
       controllerAs: 'game'
     })
 
+    // USER CALLBACK ==========================================================
+    .when('/500px/callback.html', {
+      templateUrl:  '/components/callback/callback.html',
+      controller:   'CallbackController',
+      controllerAs: 'cb'
+    });
+
+
 
     $locationProvider.html5Mode(true);
 }]);
