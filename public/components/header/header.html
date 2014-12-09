@@ -3,6 +3,8 @@
 </div>
 <h1>PixelPlay</h1>
 
-<div class="logged-in-menu" ng-if="head.currentUser">
-  
+<div class="logged-in-menu" ng-if="global.currentUser">
+  <div class="menu-header">
+    <img ng-src="{{global.currentUser.avatars.small.http}}"> 
+  </div>
 </div>

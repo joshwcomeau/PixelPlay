@@ -5,17 +5,17 @@
   height: $headerHeight;
 
   h1 {
-    margin: 0 0 0 4rem;
+    margin: 0 0 0 $headerHeight;
     padding: 0;
     line-height: $headerHeight;
   }
 
   .logosquares {
     position: absolute;
-    width: 1.5rem;
-    height: 1.5rem;
-    top: 1.75rem;
-    left: 1.75rem;
+    width: $headerHeight * 0.4;
+    height: $headerHeight * 0.4;
+    top: $headerHeight * 0.3;
+    left: $headerHeight * 0.3;
     transform: rotate(45deg);
 
     & > div {
@@ -24,6 +24,25 @@
       height: 48%;
       margin: 0 1% 1% 0;
       float: left;
+    }
+  }
+
+  .logged-in-menu, .logged-out-menu {
+    position: absolute;
+    right: $headerHeight * 0.3;
+    top: 0;
+
+    .menu-header {
+      position: relative;
+      height: $headerHeight;
+      text-align: right;
+
+      img {
+        width: $headerHeight * 0.6;
+        height: $headerHeight * 0.6;
+        margin-top: $headerHeight * 0.2; 
+        border-radius: 100%;
+      }
     }
   }
 }
