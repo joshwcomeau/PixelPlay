@@ -1,8 +1,14 @@
 @import 'variables';
 
 #wrapper > header {
+  position: relative;
+  z-index: 2;
   background: #FFF;
   height: $headerHeight;
+
+  &.game-active {
+    background: rgba(255,255,255,0.2);
+  }
 
   h1 {
     margin: 0 0 0 $headerHeight;
@@ -29,7 +35,7 @@
 
   .logged-in-menu, .logged-out-menu {
     position: absolute;
-    right: $headerHeight * 0.3;
+    right: $headerHeight * 0.2;
     top: 0;
 
     .menu-header {
@@ -43,6 +49,23 @@
         margin-top: $headerHeight * 0.2; 
         border-radius: 100%;
       }
+    }
+  }
+
+  .new-game {
+    position: absolute;
+    right: $headerHeight;
+    top: 0;
+
+    line-height: $headerHeight;
+
+    a {
+      display: block;
+      padding: 0 1.5rem;
+
+      &:hover {
+        background: $lightblue;
+      }  
     }
   }
 }
