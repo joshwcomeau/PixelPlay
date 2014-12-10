@@ -42,8 +42,8 @@ gulp.task('scripts', function() {
     .pipe(sourcemaps.init())
       .pipe(concat('main.min.js'))
       .pipe(uglify())
+      .on('error', errorLog)
     .pipe(sourcemaps.write('./'))
-    .on('error', errorLog)
     .pipe(gulp.dest('public/assets/js'))
     .pipe(notify({ message: 'Scripts task complete' }));
 });
