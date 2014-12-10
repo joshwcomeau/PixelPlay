@@ -17,8 +17,9 @@ GameController.prototype.start = function() {
   };
 
   game.fetchPhotos.get(opts)
-    .then(function(res) {
-      alert("Success: " + res.success);
+    .then(function() {
+      game.photoData = game.fetchPhotos.filteredPhotos;
+      console.log(game.fetchPhotos);
     }, function(res) {
       alert("Failed: " + res.message);
     });
