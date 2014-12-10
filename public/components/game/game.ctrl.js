@@ -1,38 +1,41 @@
-function GameController($scope) {
+function GameController($scope, FetchPhotos) {
   this.round = 1;
   this.photoData = null;
   this.currentPhoto = null;
+  this.fetchPhotos = FetchPhotos;
 }
 
 GameController.prototype.start = function() {
   var game = this;
 
   // get photos. Will extract to Service if it works
-  var photo_options = {
+  var opts = {
     feature:    'fresh_today',
     only:       'Urban Exploration',
     image_size: 4,
     rpp:        100
   };
 
-  _500px.api('/photos', photo_options, function (response) {
-    if (response.success) {
-      console.log(response.data)
-      game.photoData = _.filter(response.data.photos, function(photo) {
-        return photo.latitude !== null;
-      });
-      game.currentPhoto = game.photoData.pop()
+  game.fetchPhotos.get(opts)
+    .then(function(res) {
+      alert("Success: " + res.success);
+    }, function(res) {
+      alert("Failed: " + res.message);
+    });
 
-      console.log("num of photos", response.data.photos.length, "after filtering", game.photoData.length)
-    } else {
-      alert('Unable to complete request: ' + response.status + ' - ' + response.error_message);
-    }
-  });
+
+
+  // if ( game.photoData.error ) {
+  //   alert("ERROR: Code " + game.photoData.status + " with message " + game.photoData.message);
+  // }
+
+  // game.currentPhoto = game.photoData.pop();
+
 };
 
 GameController.prototype.getNextPhoto = function() {
-  this.currentPhoto = this.photoData.pop()
+  this.currentPhoto = this.photoData.pop();
 };
 
-GameController.$inject = ['$scope'];
-angular.module('pixelPlay.game').controller('GameController', ['$scope', GameController]);
+GameController.$inject = ['$scope', 'FetchPhotos'];
+angular.module('pixelPlay.game').controller('GameController', ['$scope', 'FetchPhotos', GameController]);
