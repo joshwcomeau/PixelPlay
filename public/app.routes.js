@@ -9,7 +9,8 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
     .when('/game', {
       templateUrl:  '/components/game/game.index.html',
       controller:   'GameController',
-      controllerAs: 'game'
+      controllerAs: 'game',
+      resolve:      GameController.resolve
     });
 
 
