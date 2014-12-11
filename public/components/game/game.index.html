@@ -1,7 +1,33 @@
-<div class="photo-container">
+<div class="photo-container" ng-style="{'background-image':'url('+game.currentPhoto.image_url+')'}" ng-show="game.manager.state === 'waiting' || game.manager.state === 'running'" ng-class="{blurred: game.manager.state === 'waiting'}"></div>
 
+
+
+<div class="loading-bar" ng-style="{'width': game.loadPercent + '%'}" ng-hide="game.manager.state !== 'initial'"></div>
+
+<div class="loading-overlay" ng-if="game.manager.state === 'initial'"></div>
+<div class="instructions">
+  
 </div>
+
+<h2 style="display: block; position: absolute; z-index: 3; top: 20%;">{{ game.manager.state }}</h2>
 
 <div class="start-button">
   <button ng-click="game.start()">Start Game</button> 
+</div>
+
+<div class="answers" ng-class="{show: game.manager.state === 'running'}">
+  <ul>
+    <li>
+      <h3>Toronto</h3>
+      <h5>Canada</h5>
+    </li>
+    <li>
+      <h3>Seattle</h3>
+      <h5>United States</h5>
+    </li>
+    <li>
+      <h3>Sydney</h3>
+      <h5>Australia</h5>
+    </li>
+  </ul>
 </div>
