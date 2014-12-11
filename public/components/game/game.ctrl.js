@@ -7,7 +7,7 @@ function GameController($scope, GameManager, FetchPhotos, Preloader, ReverseGeoc
   this.photoData    = FetchPhotos.filteredPhotos;
   this.revGeocoder  = ReverseGeocoder;
 
-
+  console.log(this.photoData);
 
   this.loading      = false;
   this.loadPercent  = null;
@@ -32,7 +32,10 @@ function GameController($scope, GameManager, FetchPhotos, Preloader, ReverseGeoc
 // Called in app.routes.js before the view is rendered.
 GameController.resolve = {
   getPhotos: ['FetchPhotos', function(FetchPhotos) {
-    return FetchPhotos.get();
+    return FetchPhotos.query();
+  }],
+  getBogusAnswers: ['FetchCities', function(FetchCities) {
+    return FetchCities.query;
   }]
 };
 
@@ -66,6 +69,13 @@ GameController.prototype.preloadPhotos = function(num) {
   );
 };
 
+GameController.prototype.buildAnswers = function(photo_obj) {
+  var answers = [],
+      right_answer = photo_obj.location;
+
+  wrong_answer_1 = 
+}
+
 GameController.prototype.updateLocations = function() {
   var game = this;
 
@@ -78,7 +88,8 @@ GameController.prototype.updateLocations = function() {
     }, function handleReject(err) {
       console.log("Uh oh, something went wrong", err);
     }, function handleNotify(response) {
-      console.log(response);
+      game.photoData[response.index].location = response.location
+      console.log(game.photoData);
     }
   );
 };

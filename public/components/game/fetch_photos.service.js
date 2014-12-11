@@ -3,7 +3,7 @@ function FetchPhotos($q) {
     allPhotos:      [],
     filteredPhotos: [],
 
-    get: function(givenOpts) {
+    query: function(givenOpts) {
       var 
       deferred = $q.defer(),
       defaultOpts = {
