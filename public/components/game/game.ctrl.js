@@ -1,42 +1,64 @@
-function GameController($scope, FetchPhotos) {
-  this.round = 1;
-  this.photoData = null;
+function GameController($scope, GameManager, FetchPhotos, Preloader) {
+  this.question     = 0;
+  this.photoData    = null;
   this.currentPhoto = null;
-  this.fetchPhotos = FetchPhotos;
+  this.fetchPhotos  = FetchPhotos;
+  this.photoData    = FetchPhotos.filteredPhotos;
+
+  this.loading      = false;
+  this.loadPercent  = null;
+  this.preloader    = Preloader;
+
+  this.manager      = GameManager;
+
+  
+
+  // Load strategy: start by loading the first x images.
+  // Then, every time we move to the next image, preload another.
+  // We should always have x images cached and ready to go.
+  this.preloadPhotos(20);
 }
 
+
+// Called in app.routes.js before the view is rendered.
+GameController.resolve = {
+  getPhotos: ['FetchPhotos', function(FetchPhotos) {
+    return FetchPhotos.get();
+  }]
+};
+
 GameController.prototype.start = function() {
-  var game = this;
-
-  // get photos. Will extract to Service if it works
-  var opts = {
-    feature:    'fresh_today',
-    only:       'Urban Exploration',
-    image_size: 4,
-    rpp:        100
-  };
-
-  game.fetchPhotos.get(opts)
-    .then(function() {
-      game.photoData = game.fetchPhotos.filteredPhotos;
-      console.log(game.fetchPhotos);
-    }, function(res) {
-      alert("Failed: " + res.message);
-    });
-
-
-
-  // if ( game.photoData.error ) {
-  //   alert("ERROR: Code " + game.photoData.status + " with message " + game.photoData.message);
-  // }
-
-  // game.currentPhoto = game.photoData.pop();
-
+  this.manager.state = 'running';
 };
 
 GameController.prototype.getNextPhoto = function() {
-  this.currentPhoto = this.photoData.pop();
+  this.currentPhoto = this.photoData.shift();
 };
 
-GameController.$inject = ['$scope', 'FetchPhotos'];
-angular.module('pixelPlay.game').controller('GameController', ['$scope', 'FetchPhotos', GameController]);
+GameController.prototype.preloadPhotos = function(num) {
+  var start     = this.question,
+      end       = this.question + (num || 1),  
+      loadArray = this.photoData.slice(start, end),
+      game      = this;
+
+  console.log("start", start, "end", end)
+
+  this.preloader.preloadImages(loadArray).then(
+    function handleResolve() {
+      game.getNextPhoto();
+      if ( game.manager.state === 'initial' ) game.manager.state = 'waiting';
+      console.log("Preload successful!");
+    },
+    function handleReject(loc) {
+      game.manager.state = 'error';
+      console.error( "Image failed", loc);
+    },
+    function handleNotify(e) {
+      game.loadPercent = e.percent;
+      console.log("Percent loaded", e);
+    }
+  );
+};
+
+GameController.$inject = ['$scope', 'GameManager', 'FetchPhotos', 'Preloader'];
+angular.module('pixelPlay.game').controller('GameController', ['$scope', 'GameManager', 'FetchPhotos', 'Preloader', GameController]);
