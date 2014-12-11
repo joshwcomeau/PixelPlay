@@ -1,18 +1,18 @@
-<div class="photo-container" ng-style="{'background-image':'url('+game.currentPhoto.image_url+')'}" ng-show="game.manager.state === 'waiting' || game.manager.state === 'running'" ng-class="{blurred: game.manager.state === 'waiting'}"></div>
+<div class="photo-container" ng-style="{'background-image':'url('+game.manager.currentPhoto.image_url+')'}" ng-show="game.manager.state === 'waiting' || game.manager.state === 'running'" ng-class="{blurred: game.manager.state === 'waiting'}"></div>
 
 
 
-<div class="loading-bar" ng-style="{'width': game.loadPercent + '%'}" ng-hide="game.manager.state !== 'initial'"></div>
+<div class="loading-bar" ng-style="{'width': game.manager.loadPercent + '%'}" ng-hide="game.manager.state !== 'initial'"></div>
 
 <div class="loading-overlay" ng-if="game.manager.state === 'initial'"></div>
 <div class="instructions">
   
 </div>
 
-<h2 style="display: block; position: absolute; z-index: 3; top: 20%;">{{ game.currentAnswers }}</h2>
+<h2 style="display: block; position: absolute; z-index: 3; top: 20%;">{{ game.manager.state }}</h2>
 
 <div class="start-button" ng-if="game.manager.state === 'initial' || game.manager.state === 'waiting'">
-  <button ng-click="game.start()">{{ game.manager.state === 'initial' ? 'Loading...' : 'Start Game' }}</button> 
+  <button ng-click="game.manager.startGame()">{{ game.manager.state === 'initial' ? 'Loading...' : 'Start Game' }}</button> 
 </div>
 
 <div class="answers" ng-class="{show: game.manager.state === 'running'}">

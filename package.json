@@ -37,10 +37,11 @@
     "karma-mocha": "^0.1.10",
     "karma-phantomjs-launcher": "^0.1.4",
     "mocha": "^2.0.1",
+    "sleep": "^1.2.0",
     "supertest": "^0.15.0"
   },
   "scripts": {
-    "test":         "mocha 'test/**/*.spec.js'",
-    "postinstall":  "./node_modules/bower/bin/bower install"
+    "test": "mocha 'test/**/*.spec.js'",
+    "postinstall": "./node_modules/bower/bin/bower install"
   }
 }
