@@ -1,71 +1,129 @@
 @import 'variables';
-
-#wrapper > header {
+$sizeReduction:     0.8;
+$transitionLength:  1s;
+ 
+.header-container {
   position: relative;
   z-index: 3;
-  background: #FFF;
-  height: $headerHeight;
 
-  &.game-active {
-    background: rgba(255,255,255,0.2);
-  }
+  header {
+    background: #FFF;
+    height: $headerHeight;
 
-  h1 {
-    margin: 0 0 0 $headerHeight;
-    padding: 0;
-    line-height: $headerHeight;
-  }
+    &.game-active {
+      transition: $transitionLength;
+      background: rgba(255,255,255,0.9);
+      height: $headerHeight * $sizeReduction;
 
-  .logosquares {
-    position: absolute;
-    width: $headerHeight * 0.4;
-    height: $headerHeight * 0.4;
-    top: $headerHeight * 0.3;
-    left: $headerHeight * 0.3;
-    transform: rotate(45deg);
+      h1 {
+        font-size: 2rem * $sizeReduction;
+        line-height: $headerHeight * $sizeReduction;
+        transition: $transitionLength;
+        margin-left: $headerHeight * 0.8;
+      }
 
-    & > div {
-      position: relative;
-      width: 48%;
-      height: 48%;
-      margin: 0 1% 1% 0;
-      float: left;
+      .logosquares {
+        transition: $transitionLength;
+        transform: rotate(-135deg);
+        top: $headerHeight * 0.3 * $sizeReduction;
+        left: $headerHeight * 0.3 * $sizeReduction;
+        height: $headerHeight * 0.4 * $sizeReduction;
+        width: $headerHeight * 0.4 * $sizeReduction;
+
+        & > div {
+          width: 50%;
+          height: 50%;
+          margin: 0;
+        }
+      }
+
+      .logged-in-menu, .logged-out-menu {
+        transition: $transitionLength;
+        right: $headerHeight * 0.2 * $sizeReduction;
+
+        .menu-header {
+          transition: $transitionLength;
+          position: relative;
+          height: $headerHeight * $sizeReduction;
+          text-align: right;
+
+          img {
+            transition: $transitionLength;
+            width: $headerHeight * 0.6 * $sizeReduction;
+            height: $headerHeight * 0.6 * $sizeReduction;
+            margin-top: $headerHeight * 0.2 * $sizeReduction; 
+            border-radius: 100%;
+          }
+        }
+      }
+
+      .new-game {
+        transition: $transitionLength;
+        right: $headerHeight  * $sizeReduction;
+        line-height: $headerHeight  * $sizeReduction;
+      }
+
     }
-  }
+  
 
-  .logged-in-menu, .logged-out-menu {
-    position: absolute;
-    right: $headerHeight * 0.2;
-    top: 0;
 
-    .menu-header {
-      position: relative;
-      height: $headerHeight;
-      text-align: right;
+    h1 {
+      margin: 0 0 0 $headerHeight;
+      padding: 0;
+      line-height: $headerHeight;
+    }
 
-      img {
-        width: $headerHeight * 0.6;
-        height: $headerHeight * 0.6;
-        margin-top: $headerHeight * 0.2; 
-        border-radius: 100%;
+    .logosquares {
+      position: absolute;
+      width: $headerHeight * 0.4;
+      height: $headerHeight * 0.4;
+      top: $headerHeight * 0.3;
+      left: $headerHeight * 0.3;
+      transform: rotate(45deg);
+
+      & > div {
+        position: relative;
+        width: 48%;
+        height: 48%;
+        margin: 0 1% 1% 0;
+        float: left;
       }
     }
-  }
 
-  .new-game {
-    position: absolute;
-    right: $headerHeight;
-    top: 0;
+    .logged-in-menu, .logged-out-menu {
+      position: absolute;
+      right: $headerHeight * 0.2;
+      top: 0;
 
-    line-height: $headerHeight;
+      .menu-header {
+        position: relative;
+        height: $headerHeight;
+        text-align: right;
 
-    a {
-      display: block;
-      padding: 0 1.5rem;
+        img {
+          width: $headerHeight * 0.6;
+          height: $headerHeight * 0.6;
+          margin-top: $headerHeight * 0.2; 
+          border-radius: 100%;
+        }
+      }
+    }
 
-      &:hover {
-        background: $lightblue;
-      }  
+    .new-game {
+      position: absolute;
+      right: $headerHeight;
+      top: 0;
+
+      line-height: $headerHeight;
+
+      a {
+        display: block;
+        padding: 0 1.5rem;
+
+        &:hover {
+          background: $lightblue;
+        }  
+      }
     }
   }
 }

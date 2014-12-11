@@ -11,8 +11,8 @@
 
 <h2 style="display: block; position: absolute; z-index: 3; top: 20%;">{{ game.photoData[0].location }}</h2>
 
-<div class="start-button">
-  <button ng-click="game.start()">Start Game</button> 
+<div class="start-button" ng-if="game.manager.state === 'initial' || game.manager.state === 'waiting'">
+  <button ng-click="game.start()">{{ game.manager.state === 'initial' ? 'Loading...' : 'Start Game' }}</button> 
 </div>
 
 <div class="answers" ng-class="{show: game.manager.state === 'running'}">
