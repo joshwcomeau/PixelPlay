@@ -26,7 +26,7 @@ angular.module('pixelPlay')
       else if ( c.types[0] === 'country' )
         country = c.long_name;
     });
-    console.log("City is ", city, " and country is ", country)
+    console.log("City is ", city, " and country is ", country);
     return {
       city:     city[0],
       country:  country

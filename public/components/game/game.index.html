@@ -9,7 +9,7 @@
   
 </div>
 
-<h2 style="display: block; position: absolute; z-index: 3; top: 20%;">{{ game.photoData[0].location }}</h2>
+<h2 style="display: block; position: absolute; z-index: 3; top: 20%;">{{ game.currentAnswers }}</h2>
 
 <div class="start-button" ng-if="game.manager.state === 'initial' || game.manager.state === 'waiting'">
   <button ng-click="game.start()">{{ game.manager.state === 'initial' ? 'Loading...' : 'Start Game' }}</button> 

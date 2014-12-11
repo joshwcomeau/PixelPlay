@@ -1,0 +1,3 @@
+{ "_id" : { "$oid" : "5489fa353036427d1265c48f" }, "name" : "Sheldon", "home" : { "city" : "toronto", "country" : "canada" } }
+{ "_id" : { "$oid" : "5489fa7522a98036b940a8ce" }, "name" : "Leonard", "home" : { "city" : "New York", "country" : "United States" } }
+{ "_id" : { "$oid" : "5489fa7b22a98036b940a8cf" }, "name" : "Penny", "home" : { "city" : "New York", "country" : "United States" } }

@@ -1,20 +1,19 @@
-function GameController($scope, GameManager, FetchPhotos, Preloader, ReverseGeocoder) {
+function GameController($scope, GameManager, FetchPhotos, bogusAnswers, Preloader, ReverseGeocoder) {
   this.question     = 0;
   this.page         = 1;
   this.photoData    = null;
   this.currentPhoto = null;
   this.fetchPhotos  = FetchPhotos;
   this.photoData    = FetchPhotos.filteredPhotos;
+  this.bogusCities  = bogusAnswers;
   this.revGeocoder  = ReverseGeocoder;
 
-  console.log(this.photoData);
 
   this.loading      = false;
   this.loadPercent  = null;
   this.preloader    = Preloader;
 
   this.manager      = GameManager;
-
   
 
   // Load strategy: start by loading the first x images.
@@ -34,8 +33,8 @@ GameController.resolve = {
   getPhotos: ['FetchPhotos', function(FetchPhotos) {
     return FetchPhotos.query();
   }],
-  getBogusAnswers: ['FetchCities', function(FetchCities) {
-    return FetchCities.query;
+  bogusAnswers: ['FetchCities', function(FetchCities) {
+    return FetchCities.query().$promise;
   }]
 };
 
@@ -45,6 +44,11 @@ GameController.prototype.start = function() {
 
 GameController.prototype.getNextPhoto = function() {
   this.currentPhoto = this.photoData.shift();
+};
+
+GameController.prototype.pickRandomCity = function() {
+  var country = _.sample(this.bogusCities);
+  return _.sample(country.cities);
 };
 
 GameController.prototype.preloadPhotos = function(num) {
@@ -73,8 +77,8 @@ GameController.prototype.buildAnswers = function(photo_obj) {
   var answers = [],
       right_answer = photo_obj.location;
 
-  wrong_answer_1 = 
-}
+  wrong_answer_1 = '';
+};
 
 GameController.prototype.updateLocations = function() {
   var game = this;
@@ -88,11 +92,11 @@ GameController.prototype.updateLocations = function() {
     }, function handleReject(err) {
       console.log("Uh oh, something went wrong", err);
     }, function handleNotify(response) {
-      game.photoData[response.index].location = response.location
+      game.photoData[response.index].location = response.location;
       console.log(game.photoData);
     }
   );
 };
 
-GameController.$inject = ['$scope', 'GameManager', 'FetchPhotos', 'Preloader', 'ReverseGeocoder'];
-angular.module('pixelPlay.game').controller('GameController', ['$scope', 'GameManager', 'FetchPhotos', 'Preloader', 'ReverseGeocoder', GameController]);
+GameController.$inject = ['$scope', 'GameManager', 'FetchPhotos', 'bogusAnswers', 'Preloader', 'ReverseGeocoder'];
+angular.module('pixelPlay.game').controller('GameController', ['$scope', 'GameManager', 'FetchPhotos', 'bogusAnswers', 'Preloader', 'ReverseGeocoder', GameController]);
