@@ -41,8 +41,6 @@ GameController.prototype.preloadPhotos = function(num) {
       loadArray = this.photoData.slice(start, end),
       game      = this;
 
-  console.log("start", start, "end", end)
-
   this.preloader.preloadImages(loadArray).then(
     function handleResolve() {
       game.getNextPhoto();
