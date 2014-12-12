@@ -4,7 +4,6 @@ angular.module('pixelPlay')
 .factory('ReverseGeocoder', ['$q', '$interval', function($q, $interval) {
   var pauseLength = 500,
       geocoder    = new google.maps.Geocoder(),
-      deferred    = $q.defer(),
       currentLocation, latLng;
 
 
@@ -34,14 +33,15 @@ angular.module('pixelPlay')
 
   return {
     getLocation: function(photo_obj) {
-      var lat = photo_obj.latitude,
-          lng = photo_obj.longitude,
-          latLng = new google.maps.LatLng(lat, lng);
+      var lat       = photo_obj.latitude,
+          lng       = photo_obj.longitude,
+          latLng    = new google.maps.LatLng(lat, lng),
+          deferred  = $q.defer();
 
       geocoder.geocode({'latLng': latLng}, function(results, status) {
-        console.log("GEOCODER: ", status, results);
         if (status == google.maps.GeocoderStatus.OK) {
           if (results[1]) {
+            console.log(getCityAndCountry(results));
             deferred.resolve({
               location: getCityAndCountry(results)
             });

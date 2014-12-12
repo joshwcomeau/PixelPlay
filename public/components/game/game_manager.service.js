@@ -5,7 +5,6 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
     this.countriesAndCities;
     this.photos;
 
-    console.log(this);
 
     this.score = 0;
 
@@ -16,6 +15,8 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
     this.remainingQs      = this.photos.length;
     this.page             = 1;
 
+    this.resultsSplash    = null;
+
     this.loading          = false;
     this.loadPercent      = 0;
 
@@ -24,8 +25,9 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
 
 
 
-    // First order of business: Start preloading photos!
+    // First order of business: Start preloading photos and locations!
     this.preloadQuestions(3);
+
   };
 
   this.startGame = function() {
@@ -38,7 +40,6 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
     this.currentPhoto   = this.loadedPhotos.shift();
     this.currentAnswers = this.buildAnswers();
     this.state          = 'waiting';
-
   };
 
   this.preloadQuestions = function(iterations) {
@@ -49,6 +50,7 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
         question, startTime, endTime, iterationLength, timeLeftToWait;
 
     manager.loading = true;
+    iterations = iterations || 1;
 
     preloadQuestion();
 
@@ -63,10 +65,14 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
         getImage:    Preloader.preloadImages([question]), 
         getLocation: ReverseGeocoder.getLocation(question)
       }).then(function(results) {
-        console.log(results);
 
         question.location = results.getLocation.location;
-        manager.loadedPhotos.push(manager.photos.shift());
+        console.log(question.location);
+        manager.loadedPhotos.push(question);
+
+        manager.photos.shift();
+
+        
 
         currentIteration++;
         manager.loadPercent = (currentIteration / iterations) * 100;
@@ -79,9 +85,6 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
         // set a timeout, and re-invoke this function.
 
         if ( currentIteration === iterations ) {
-          console.log("All done preloading!");
-          console.log(manager.photos);
-          console.log(manager.loadedPhotos);
           manager.loading = false;
 
           // Is this our initial load? If so, set up the game.
@@ -90,13 +93,10 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
           }
 
         } else {
-          console.log("Here's where we're at");
           endTime = new Date().getTime();
           iterationLength = endTime - startTime;
-          console.log("Iteration length is ", iterationLength)
           if ( iterationLength < pauseLength ) {
             timeLeftToWait = pauseLength - iterationLength;
-            console.log("We're waiting for ", timeLeftToWait);
             $timeout(preloadQuestion, timeLeftToWait);
           } else {
             preloadQuestion();
@@ -106,12 +106,33 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
     }
   };
 
+  this.submitAnswer = function(ans) {
+    var manager = this;
+    if ( this.currentPhoto.location.city === ans.city ) {
+      // They got it right!
+      this.score++;
+      this.resultsSplash = true;
+    } else {
+      this.resultsSplash = false;
+    }
+
+    // preload another question.
+    this.preloadQuestions();
+
+    $timeout(function() {
+      manager.currentPhoto = manager.loadedPhotos.shift();  
+    }, 100);
+    
+
+  };  
+
   this.goToNextQuestion = function() {
-    this.currentPhoto   = this.loadedPhotos.shift();
     
     this.currentQuestion++;
     this.currentAnswers = this.buildAnswers();
     this.remainingQs    = this.photos.length;    
+
+    this.resultsSplash  = null;
   };
 
   this.buildAnswers = function() {
@@ -124,7 +145,6 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
     }
     var answers = _.shuffle([right_answer, plucked_city1, plucked_city2]);
 
-    console.log("this many answers", answers.length);
 
     return answers;
   };

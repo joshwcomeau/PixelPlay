@@ -1,4 +1,9 @@
-<div class="photo-container" ng-style="{'background-image':'url('+game.manager.currentPhoto.image_url+')'}" ng-show="game.manager.state === 'waiting' || game.manager.state === 'running'" ng-class="{blurred: game.manager.state === 'waiting'}"></div>
+<div class="black-background"></div>
+<div class="photo-container" 
+  ng-style="{'background-image':'url('+game.manager.currentPhoto.image_url+')'}" 
+  ng-show="game.manager.state === 'waiting' || game.manager.state === 'running'" 
+  ng-class="{blurred: game.manager.state === 'waiting', translucent: game.manager.resultsSplash !== null}"
+></div>
 
 
 
@@ -9,6 +14,19 @@
   
 </div>
 
+
+<div class="results-splash" ng-show="game.manager.resultsSplash !== null">
+  <div class="right" ng-if="game.manager.resultsSplash === true">
+    <i class="fa fa-check"></i> You're right!
+  </div>
+
+  <div class="wrong" ng-if="game.manager.resultsSplash === false">
+    <i class="fa fa-times"></i> Sorry, that was wrong.
+  </div>
+
+  <button ng-click="game.manager.goToNextQuestion()">Next Question</button>
+</div>
+
 <h2 style="display: block; position: absolute; z-index: 3; top: 20%;">{{ game.manager.state }}</h2>
 
 <div class="start-button" ng-if="game.manager.state === 'initial' || game.manager.state === 'waiting'">
@@ -17,7 +35,7 @@
 
 <div class="answers" ng-class="{show: game.manager.state === 'running'}">
   <ul>
-    <li ng-repeat="answer in game.manager.currentAnswers">
+    <li ng-repeat="answer in game.manager.currentAnswers" ng-click="game.manager.submitAnswer(answer)">
       <h3>{{answer.city}}</h3>
       <h5>{{answer.country}}</h5>
     </li>

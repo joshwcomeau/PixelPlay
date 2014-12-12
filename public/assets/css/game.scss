@@ -1,12 +1,9 @@
 @import 'variables';
+@import 'mixins';
 
 .photo-container {
-  position: absolute;
+  @include cover-everything;
   z-index: 1;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   transition: 1s;
   opacity: 1;
 
@@ -16,21 +13,32 @@
   &.blurred {
     z-index: 2;
     filter: blur(35px);
+    transform: translate3d(0, 0, 0);
     top: -60px;
     left: -60px;
     right: -60px;
     bottom: -60px;
     transition: 0s;
   }
-}
 
+  &.translucent {
+    @extend .blurred;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.05;
+    transition: 1.2s;
+  }
+}
+.black-background {
+  @include cover-everything;
+  z-index: 0;
+  background: #111;
+}
 .loading-overlay {
-  position: absolute;
+  @include cover-everything;
   z-index: 2;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   transition: 1s;
   opacity: 1;
   background: #222;
@@ -97,13 +105,22 @@
   ul {
     margin: 0;
     padding: 0;
+    text-align: center;
   }
 
   li {
     display: inline-block;
-    width: 33%;
+    width: 32%;
+    height: $headerHeight;
+    margin: 0 0.5%;
     padding: 1rem;
     text-align: center;
+
+    &:hover {
+      background: $lightblue;
+      color: #222;
+      transition: 0.5s;
+    }
 
     h3 {
       margin: 0;
@@ -114,4 +131,35 @@
       padding: 0;
     }
   }
+}
+
+.results-splash {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  top: 25%;
+  opacity: 1;
+  transition: 1s;
+
+  &.ng-hide {
+    
+    opacity: 0;
+  }
+
+  & > div {
+    text-align: center;
+    font-size: 3rem;
+  }
+
+  i {
+    font-size: 12rem;
+  }
+
+  .right {
+    color: $green2;
+  }
+  .wrong {
+    color: $red;
+  }
+
 }
