@@ -44,7 +44,7 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
   this.preloadQuestions = function(iterations) {
     var index             = 0,
         currentIteration  = 0,
-        pauseLength       = 2000,
+        pauseLength       = 500,
         manager           = this,
         question, startTime, endTime, iterationLength, timeLeftToWait;
 
@@ -111,20 +111,26 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
   };
 
   this.buildAnswers = function() {
-    var right_answer  = this.currentPhoto,
+    var right_answer  = this.currentPhoto.location,
         plucked_city1 = this.pickRandomCity(),
-        plucked_city2 = this.pickRandomCity();
+        plucked_city2 = plucked_city1;
 
-    console.log("ANSWERS ", right_answer, plucked_city1, plucked_city2);
+    while( plucked_city1.city === plucked_city2.city ) {
+      plucked_city2 = this.pickRandomCity();
+    }
+    var answers = _.shuffle([right_answer, plucked_city1, plucked_city2]);
 
-    return _.shuffle([right_answer, plucked_city1, plucked_city2]);
+    console.log("this many answers", answers.length);
+
+    return answers;
   };
 
   this.pickRandomCity = function() {
-    var country, city;
+    var ans, country, city;
+    ans = _.sample(this.countriesAndCities);
 
-    country = _.sample(this.countriesAndCities);
-    city    = _.sample(country.cities);
+    country = ans.country;
+    city    = _.sample(ans.cities);
 
     return {
       country: country,
