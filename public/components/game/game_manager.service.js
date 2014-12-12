@@ -1,22 +1,23 @@
-function GameManager(FetchPhotos, FetchCities, Preloader, ReverseGeocoder) { 
+function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloader, ReverseGeocoder) { 
 
   this.initialize = function() {
     // Provided from GameController
     this.countriesAndCities;
     this.photos;
 
-    console.log(this.photos);
-    
+    console.log(this);
+
     this.score = 0;
 
+    this.loadedPhotos     = [];
     this.currentPhoto     = null;
     this.currentAnswers   = null;
     this.currentQuestion  = 0;
     this.remainingQs      = this.photos.length;
     this.page             = 1;
 
-    this.loading        = false;
-    this.loadPercent    = 0;
+    this.loading          = false;
+    this.loadPercent      = 0;
 
     // Possible states are 'initial', 'waiting', 'running', 'finished', 'error'
     this.state = 'initial';
@@ -24,12 +25,7 @@ function GameManager(FetchPhotos, FetchCities, Preloader, ReverseGeocoder) {
 
 
     // First order of business: Start preloading photos!
-    this.preloadPhotos(20);
-
-    // As that happens, start updating our photo locations
-    // with Google's Geocoder API.
-    this.updateLocations();
-
+    this.preloadQuestions(3);
   };
 
   this.startGame = function() {
@@ -39,52 +35,75 @@ function GameManager(FetchPhotos, FetchCities, Preloader, ReverseGeocoder) {
   // Our images are loaded and we're ready to go.
   // Set it up so that the user can click 'start'.
   this.setupGame = function() {
-    this.goToNextQuestion();
-    this.state = 'waiting';
+    this.currentPhoto   = this.loadedPhotos.shift();
+    this.currentAnswers = this.buildAnswers();
+    this.state          = 'waiting';
 
   };
 
-  this.preloadPhotos = function(num) {
-    var start     = this.currentQuestion,
-        end       = this.currentQuestion + (num || 1),  
-        loadArray = this.photos.slice(start, end),
-        manager   = this;
+  this.preloadQuestions = function(iterations) {
+    var index             = 0,
+        currentIteration  = 0,
+        pauseLength       = 2000,
+        manager           = this,
+        question, startTime, endTime, iterationLength, timeLeftToWait;
 
-    Preloader.preloadImages(loadArray).then(
-      function handleResolve() {
-        manager.setupGame();
-        console.log("Preload successful woohoo!");
-      },
-      function handleReject(loc) {
-        manager.state = 'error';
-        console.error( "Image failed", loc);
-      },
-      function handleNotify(e) {
-        manager.loadPercent = e.percent;
-      }
-    );
-  };
+    manager.loading = true;
 
-  this.updateLocations = function() {
-    var manager = this;
+    preloadQuestion();
 
-    // Here's how we'll do it. We pass in ALL of our photos, and the service does them 1 at a time.
-    // Whenever it finishes one, it throws back to .notify with the location. Then, here, we update
-    // .photoData with that location.
-    ReverseGeocoder.getLocations(manager.photos).then(
-      function handleResolve() {
-        console.log("All images have locations", manager.photos);
-      }, function handleReject(err) {
-        console.log("Uh oh, something went wrong", err);
-      }, function handleNotify(response) {
-        manager.photos[response.index].location = response.location;
-        console.log(manager.photos);
-      }
-    );
+
+
+    function preloadQuestion() {
+      startTime = new Date().getTime();
+
+      question = manager.photos[0];
+
+      $q.all({
+        getImage:    Preloader.preloadImages([question]), 
+        getLocation: ReverseGeocoder.getLocation(question)
+      }).then(function(results) {
+        console.log(results);
+
+        question.location = results.getLocation.location;
+        manager.loadedPhotos.push(manager.photos.shift());
+
+        currentIteration++;
+        manager.loadPercent = (currentIteration / iterations) * 100;
+
+
+        // Alright, here's the magic.
+        // If this is our final iteration, currentIteration should == iterations.
+        // IF that's true, all of our preloading is done.
+        // Otherwise, we'll need to figure out how much time we have left to wait,
+        // set a timeout, and re-invoke this function.
+
+        if ( currentIteration === iterations ) {
+          console.log("All done preloading!");
+          console.log(manager.photos);
+          console.log(manager.loadedPhotos);
+          manager.loading = false;
+
+          // Is this our initial load? If so, set up the game.
+          if ( manager.state === 'initial' ) {
+            manager.setupGame();
+          }
+
+        } else {
+          endTime = new Date().getTime();
+          iterationLength = endTime - startTime;
+          if ( iterationLength < pauseLength ) {
+            timeLeftToWait = pauseLength - iterationLength;
+
+            $timeout(preloadQuestion, timeLeftToWait);
+          }
+        }
+      });
+    }
   };
 
   this.goToNextQuestion = function() {
-    this.currentPhoto   = this.photos.shift();
+    this.currentPhoto   = this.loadedPhotos.shift();
     
     this.currentQuestion++;
     this.currentAnswers = this.buildAnswers();
@@ -96,7 +115,7 @@ function GameManager(FetchPhotos, FetchCities, Preloader, ReverseGeocoder) {
         plucked_city1 = this.pickRandomCity(),
         plucked_city2 = this.pickRandomCity();
 
-    console.log("ANSWERS ", right_answer, plucked_city1, plucked_city2)
+    console.log("ANSWERS ", right_answer, plucked_city1, plucked_city2);
 
     return _.shuffle([right_answer, plucked_city1, plucked_city2]);
   };
@@ -117,4 +136,4 @@ function GameManager(FetchPhotos, FetchCities, Preloader, ReverseGeocoder) {
 }
 
 
-angular.module('pixelPlay.game').service('GameManager', ['FetchPhotos', 'FetchCities', 'Preloader', 'ReverseGeocoder', GameManager]);
+angular.module('pixelPlay.game').service('GameManager', ['$interval', '$timeout', '$q', 'FetchPhotos', 'FetchCities', 'Preloader', 'ReverseGeocoder', GameManager]);

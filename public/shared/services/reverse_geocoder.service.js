@@ -2,7 +2,7 @@
 
 angular.module('pixelPlay')
 .factory('ReverseGeocoder', ['$q', '$interval', function($q, $interval) {
-  var pauseLength = 1500,
+  var pauseLength = 500,
       geocoder    = new google.maps.Geocoder(),
       deferred    = $q.defer(),
       currentLocation, latLng;
@@ -11,7 +11,7 @@ angular.module('pixelPlay')
   var getCityAndCountry = function(geoResults) {
     var components = geoResults[0].address_components,
         city = [], 
-        country;
+        country, lat, lng, latLng;
 
     // In the Maps API, 'localities' are cities. Not all areas have one though.
     // Localities will be 'unshifted' (pushed to the FRONT)
@@ -33,36 +33,50 @@ angular.module('pixelPlay')
     };
   };
 
-  var getLocation = function(lat, lng, i) {
-    latLng = new google.maps.LatLng(lat, lng);
+  // var getLocation = function(lat, lng, i) {
+  //   latLng = new google.maps.LatLng(lat, lng);
 
-    geocoder.geocode({'latLng': latLng}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        if (results[1]) {
-          deferred.notify({
-            location: getCityAndCountry(results),
-            index:    i
-          });
-        } else {
-          alert('No results found');
-        }
-      } else {
-        alert('Geocoder failed due to: ' + status);
-      }
-    });
-  };
+  //   geocoder.geocode({'latLng': latLng}, function(results, status) {
+  //     if (status == google.maps.GeocoderStatus.OK) {
+  //       if (results[1]) {
+  //         deferred.notify({
+  //           location: getCityAndCountry(results),
+  //           index:    i
+  //         });
+  //       } else {
+  //         alert('No results found');
+  //       }
+  //     } else {
+  //       alert('Geocoder failed due to: ' + status);
+  //     }
+  //   });
+  // };
 
   return {
-    getLocations: function(arr) {
-      var iterations    = arr.length - 1,
-          currentIndex  = 0;
+    getLocation: function(photo_obj) {
+      var lat = photo_obj.latitude,
+          lng = photo_obj.longitude,
+          latLng = new google.maps.LatLng(lat, lng);
 
-      $interval(function() {
-        getLocation(arr[currentIndex].latitude, arr[currentIndex].longitude, currentIndex);
-        currentIndex++;
-      }, pauseLength, iterations);
-
-
+      geocoder.geocode({'latLng': latLng}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          if (results[1]) {
+            deferred.resolve({
+              location: getCityAndCountry(results)
+            });
+          } else {
+            alert('No results found');
+            deferred.reject({
+              location: null
+            });
+          }
+        } else {
+          alert('Geocoder failed due to: ' + status);
+          deferred.reject({
+            location: null
+          });
+        }
+      });
 
       return deferred.promise;
     }
