@@ -44,7 +44,7 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
   this.preloadQuestions = function(iterations) {
     var index             = 0,
         currentIteration  = 0,
-        pauseLength       = 500,
+        pauseLength       = 200,
         manager           = this,
         question, startTime, endTime, iterationLength, timeLeftToWait;
 
@@ -90,12 +90,16 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
           }
 
         } else {
+          console.log("Here's where we're at");
           endTime = new Date().getTime();
           iterationLength = endTime - startTime;
+          console.log("Iteration length is ", iterationLength)
           if ( iterationLength < pauseLength ) {
             timeLeftToWait = pauseLength - iterationLength;
-
+            console.log("We're waiting for ", timeLeftToWait);
             $timeout(preloadQuestion, timeLeftToWait);
+          } else {
+            preloadQuestion();
           }
         }
       });

@@ -26,31 +26,11 @@ angular.module('pixelPlay')
       else if ( c.types[0] === 'country' )
         country = c.long_name;
     });
-    console.log("City is ", city, " and country is ", country);
     return {
       city:     city[0],
       country:  country
     };
   };
-
-  // var getLocation = function(lat, lng, i) {
-  //   latLng = new google.maps.LatLng(lat, lng);
-
-  //   geocoder.geocode({'latLng': latLng}, function(results, status) {
-  //     if (status == google.maps.GeocoderStatus.OK) {
-  //       if (results[1]) {
-  //         deferred.notify({
-  //           location: getCityAndCountry(results),
-  //           index:    i
-  //         });
-  //       } else {
-  //         alert('No results found');
-  //       }
-  //     } else {
-  //       alert('Geocoder failed due to: ' + status);
-  //     }
-  //   });
-  // };
 
   return {
     getLocation: function(photo_obj) {
@@ -59,6 +39,7 @@ angular.module('pixelPlay')
           latLng = new google.maps.LatLng(lat, lng);
 
       geocoder.geocode({'latLng': latLng}, function(results, status) {
+        console.log("GEOCODER: ", status, results);
         if (status == google.maps.GeocoderStatus.OK) {
           if (results[1]) {
             deferred.resolve({
