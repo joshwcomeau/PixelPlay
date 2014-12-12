@@ -12,7 +12,6 @@ $transitionLength:  1s;
 
     &.game-active {
       transition: $transitionLength;
-      background: rgba(255,255,255,0.9);
       height: $headerHeight * $sizeReduction;
 
       h1 {

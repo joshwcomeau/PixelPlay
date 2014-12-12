@@ -8,6 +8,7 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
 
 
     this.score = 0;
+    this.combo = 0;
 
     this.loadedPhotos     = [];
     this.currentPhoto     = null;
@@ -110,16 +111,18 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
     if ( this.currentPhoto.location.city === ans.city ) {
       // They got it right!
       this.score++;
+      this.combo++;
       this.resultsSplash = true;
     } else {
       this.resultsSplash = false;
+      this.combo = 0;
     }
 
     // preload another question.
     this.preloadQuestions();
 
     // Fetch more questions from 500px, if necessary (or available)
-    if (this.photos.length < 22) {
+    if (this.photos.length < 10) {
       this.page++;
       FetchPhotos.query({page: this.page})
       .then(function(result) {

@@ -1,0 +1,19 @@
+@import 'variables';
+
+.card {
+  background: #EEE;
+  border-bottom: 1px solid rgba(0,0,0,0.8);
+  border-right: 1px solid rgba(0,0,0,0.8);
+
+  &:before {
+    content: " ";
+    position: absolute;
+    z-index: -1;
+    top: -$cardBorder;
+    left: -$cardBorder;
+    right: -$cardBorder;
+    bottom: -$cardBorder;
+    border: $cardBorder solid #BBB;
+  }
+
+}

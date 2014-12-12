@@ -15,16 +15,21 @@
 </div>
 
 
-<div class="results-splash" ng-show="game.manager.resultsSplash !== null">
-  <div class="right" ng-if="game.manager.resultsSplash === true">
-    <i class="fa fa-check"></i> You're right!
+<div class="results-splash card" ng-show="game.manager.resultsSplash !== null">
+  <div class="right" ng-show="game.manager.resultsSplash === true">
+    <i class="result-icon fa fa-check"></i>
+    <h2>You're right!</h2>
+    <p>Have you considered a career in globetrotting?</p>
   </div>
 
-  <div class="wrong" ng-if="game.manager.resultsSplash === false">
-    <i class="fa fa-times"></i> Sorry, that was wrong.
+  <div class="wrong" ng-show="game.manager.resultsSplash === false">
+    <i class="result-icon fa fa-times"></i>
+    <h2>Nope, sorry.</h2>
   </div>
 
-  <button ng-click="game.manager.goToNextQuestion()">Next Question</button>
+  <div class="button" ng-click="game.manager.goToNextQuestion()">
+    <i class="fa fa-arrow-right"></i>
+  </div>
 </div>
 
 <h2 style="display: block; position: absolute; z-index: 3; top: 20%;">{{ game.manager.photos.length + " and " + game.manager.loadedPhotos.length }}</h2>
@@ -33,7 +38,7 @@
   <button ng-click="game.manager.startGame()">{{ game.manager.state === 'initial' ? 'Loading...' : 'Start Game' }}</button> 
 </div>
 
-<div class="answers" ng-class="{show: game.manager.state === 'running'}">
+<div class="answers" ng-class="{show: game.manager.state === 'running' &amp;&amp; game.manager.resultsSplash === null}">
   <ul>
     <li ng-repeat="answer in game.manager.currentAnswers" ng-click="game.manager.submitAnswer(answer)">
       <h3>{{answer.city}}</h3>
