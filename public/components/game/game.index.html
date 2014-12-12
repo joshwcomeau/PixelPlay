@@ -17,17 +17,9 @@
 
 <div class="answers" ng-class="{show: game.manager.state === 'running'}">
   <ul>
-    <li>
-      <h3>Toronto</h3>
-      <h5>Canada</h5>
-    </li>
-    <li>
-      <h3>Seattle</h3>
-      <h5>United States</h5>
-    </li>
-    <li>
-      <h3>Sydney</h3>
-      <h5>Australia</h5>
+    <li ng-repeat="answer in game.manager.currentAnswers">
+      <h3>{{answer.city}}</h3>
+      <h5>{{answer.country}}</h5>
     </li>
   </ul>
 </div>

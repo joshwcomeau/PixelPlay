@@ -54,7 +54,7 @@ angular.module('pixelPlay')
 
   return {
     getLocations: function(arr) {
-      var iterations    = 3, // arr.length - 1,
+      var iterations    = arr.length - 1,
           currentIndex  = 0;
 
       $interval(function() {

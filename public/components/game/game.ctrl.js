@@ -1,7 +1,7 @@
 function GameController($scope, GameManager, FetchPhotos, bogusAnswers) {
   this.manager = GameManager;
-  GameManager.cities  = bogusAnswers;
   GameManager.photos  = FetchPhotos.filteredPhotos;
+  GameManager.countriesAndCities  = bogusAnswers;
 
   GameManager.initialize();
   
@@ -16,22 +16,6 @@ GameController.resolve = {
   bogusAnswers: ['FetchCities', function(FetchCities) {
     return FetchCities.query().$promise;
   }]
-};
-
-
-
-
-GameController.prototype.pickRandomCity = function() {
-  var country = _.sample(this.bogusCities);
-  return _.sample(country.cities);
-};
-
-
-GameController.prototype.buildAnswers = function(photo_obj) {
-  var answers = [],
-      right_answer = photo_obj.location;
-
-  wrong_answer_1 = '';
 };
 
 

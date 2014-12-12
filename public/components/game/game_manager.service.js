@@ -2,24 +2,24 @@ function GameManager(FetchPhotos, FetchCities, Preloader, ReverseGeocoder) {
 
   this.initialize = function() {
     // Provided from GameController
-    this.cities;
+    this.countriesAndCities;
     this.photos;
 
+    console.log(this.photos);
+    
     this.score = 0;
 
-    this.question     = 0;
-    this.remainingQs  = this.photos.length;
-    this.page         = 1;
-    this.currentPhoto = null;
+    this.currentPhoto     = null;
+    this.currentAnswers   = null;
+    this.currentQuestion  = 0;
+    this.remainingQs      = this.photos.length;
+    this.page             = 1;
 
-    this.loading      = false;
-    this.loadPercent  = 0;
+    this.loading        = false;
+    this.loadPercent    = 0;
 
     // Possible states are 'initial', 'waiting', 'running', 'finished', 'error'
     this.state = 'initial';
-
-
-
 
 
 
@@ -45,8 +45,8 @@ function GameManager(FetchPhotos, FetchCities, Preloader, ReverseGeocoder) {
   };
 
   this.preloadPhotos = function(num) {
-    var start     = this.question,
-        end       = this.question + (num || 1),  
+    var start     = this.currentQuestion,
+        end       = this.currentQuestion + (num || 1),  
         loadArray = this.photos.slice(start, end),
         manager   = this;
 
@@ -64,6 +64,7 @@ function GameManager(FetchPhotos, FetchCities, Preloader, ReverseGeocoder) {
       }
     );
   };
+
   this.updateLocations = function() {
     var manager = this;
 
@@ -83,9 +84,33 @@ function GameManager(FetchPhotos, FetchCities, Preloader, ReverseGeocoder) {
   };
 
   this.goToNextQuestion = function() {
-    this.currentPhoto = this.photos.shift();
-    this.remainingQs  = this.photos.length;
-    this.question++;
+    this.currentPhoto   = this.photos.shift();
+    
+    this.currentQuestion++;
+    this.currentAnswers = this.buildAnswers();
+    this.remainingQs    = this.photos.length;    
+  };
+
+  this.buildAnswers = function() {
+    var right_answer  = this.currentPhoto,
+        plucked_city1 = this.pickRandomCity(),
+        plucked_city2 = this.pickRandomCity();
+
+    console.log("ANSWERS ", right_answer, plucked_city1, plucked_city2)
+
+    return _.shuffle([right_answer, plucked_city1, plucked_city2]);
+  };
+
+  this.pickRandomCity = function() {
+    var country, city;
+
+    country = _.sample(this.countriesAndCities);
+    city    = _.sample(country.cities);
+
+    return {
+      country: country,
+      city:    city
+    };
   };
 
 
