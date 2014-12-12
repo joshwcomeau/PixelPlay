@@ -14,6 +14,7 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
     this.currentPhoto     = null;
     this.currentAnswers   = null;
     this.currentQuestion  = 0;
+    this.chosenAnswer     = null;
     this.page             = 1;
 
     this.resultsSplash    = null;
@@ -107,7 +108,7 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
   };
 
   this.submitAnswer = function(ans) {
-    
+    this.chosenAnswer = ans;
     if ( this.currentPhoto.location.city === ans.city ) {
       // They got it right!
       this.score++;
@@ -139,13 +140,13 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
 
     $timeout(function() {
       manager.currentPhoto = manager.loadedPhotos.shift();  
-    }, 100);
+    }, 150);
     
 
   };  
 
   this.goToNextQuestion = function() {
-    
+    this.chosenAnswer = null;
     this.currentQuestion++;
     this.currentAnswers = this.buildAnswers();
 
@@ -153,17 +154,16 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
   };
 
   this.buildAnswers = function() {
-    var right_answer  = this.currentPhoto.location,
-        plucked_city1 = this.pickRandomCity(),
-        plucked_city2 = plucked_city1;
+    var pluckedCity1 = this.pickRandomCity(),
+        pluckedCity2 = pluckedCity1;
 
-    while( plucked_city1.city === plucked_city2.city ) {
-      plucked_city2 = this.pickRandomCity();
+    this.rightAnswer = this.currentPhoto.location;
+
+    while( pluckedCity1.city === pluckedCity2.city ) {
+      pluckedCity2 = this.pickRandomCity();
     }
-    var answers = _.shuffle([right_answer, plucked_city1, plucked_city2]);
 
-
-    return answers;
+    return _.shuffle([this.rightAnswer, pluckedCity1, pluckedCity2]);
   };
 
   this.pickRandomCity = function() {

@@ -112,17 +112,38 @@
 
   li {
     display: block;
-    float: left;
+    position: absolute;
+    
     width: 32.332%;
     height: $headerHeight;
     margin: 0 0.5%;
     padding: 1rem;
     text-align: center;
 
+    &#answer-1 {
+      left: 0;
+    }
+    &#answer-2 {
+      left: 33.332%;
+    }
+    &#answer-3 {
+      left: 66.665%;
+    }
+
     &:hover {
       background: darken($lightblue, 20%);
       transition: margin 0.5s;
       margin-top: -0.5rem;
+    }
+
+    &.correct {
+      background: $green;
+      margin-top: 0;
+    }
+
+    &.incorrect {
+      background: $red;
+      margin-top: 0;
     }
 
     h3 {
