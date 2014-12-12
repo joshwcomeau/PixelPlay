@@ -1,4 +1,5 @@
 function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloader, ReverseGeocoder) { 
+  var manager = this;
 
   this.initialize = function() {
     // Provided from GameController
@@ -12,7 +13,6 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
     this.currentPhoto     = null;
     this.currentAnswers   = null;
     this.currentQuestion  = 0;
-    this.remainingQs      = this.photos.length;
     this.page             = 1;
 
     this.resultsSplash    = null;
@@ -46,7 +46,6 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
     var index             = 0,
         currentIteration  = 0,
         pauseLength       = 200,
-        manager           = this,
         question, startTime, endTime, iterationLength, timeLeftToWait;
 
     manager.loading = true;
@@ -107,7 +106,7 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
   };
 
   this.submitAnswer = function(ans) {
-    var manager = this;
+    
     if ( this.currentPhoto.location.city === ans.city ) {
       // They got it right!
       this.score++;
@@ -118,6 +117,22 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
 
     // preload another question.
     this.preloadQuestions();
+
+    // Fetch more questions from 500px, if necessary (or available)
+    if (this.photos.length < 22) {
+      this.page++;
+      FetchPhotos.query({page: this.page})
+      .then(function(result) {
+        _.forEach(FetchPhotos.filteredPhotos, function(photo) {
+          manager.photos.push(photo);
+        });
+        unique_ids = _.chain(manager.photos)
+          .map(function(photo) { return photo.id })
+          .uniq()
+          .value();
+        console.log(unique_ids);
+      });
+    }
 
     $timeout(function() {
       manager.currentPhoto = manager.loadedPhotos.shift();  
@@ -130,7 +145,6 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
     
     this.currentQuestion++;
     this.currentAnswers = this.buildAnswers();
-    this.remainingQs    = this.photos.length;    
 
     this.resultsSplash  = null;
   };

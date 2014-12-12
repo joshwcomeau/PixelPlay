@@ -27,7 +27,7 @@
   <button ng-click="game.manager.goToNextQuestion()">Next Question</button>
 </div>
 
-<h2 style="display: block; position: absolute; z-index: 3; top: 20%;">{{ game.manager.state }}</h2>
+<h2 style="display: block; position: absolute; z-index: 3; top: 20%;">{{ game.manager.photos.length + " and " + game.manager.loadedPhotos.length }}</h2>
 
 <div class="start-button" ng-if="game.manager.state === 'initial' || game.manager.state === 'waiting'">
   <button ng-click="game.manager.startGame()">{{ game.manager.state === 'initial' ? 'Loading...' : 'Start Game' }}</button> 
