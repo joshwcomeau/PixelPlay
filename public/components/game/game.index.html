@@ -1,61 +1,64 @@
-<div class="black-background"></div>
-<div class="photo-container" 
-  ng-style="{'background-image':'url('+game.manager.currentPhoto.image_url+')'}" 
-  ng-show="game.manager.state === 'waiting' || game.manager.state === 'running'" 
-  ng-class="{blurred: game.manager.state === 'waiting', translucent: game.manager.resultsSplash !== null}"
-></div>
+<div class="game-wrapper" answer-with-numbers>
+  <div class="black-background"></div>
+  <div class="photo-container" 
+    ng-style="{'background-image':'url('+game.manager.currentPhoto.image_url+')'}" 
+    ng-show="game.manager.state === 'waiting' || game.manager.state === 'running'" 
+    ng-class="{blurred: game.manager.state === 'waiting', translucent: game.manager.resultsSplash !== null}"
+  ></div>
 
 
 
-<div class="loading-bar" ng-style="{'width': game.manager.loadPercent + '%'}" ng-hide="game.manager.state !== 'initial'"></div>
+  <div class="loading-bar" ng-style="{'width': game.manager.loadPercent + '%'}" ng-hide="game.manager.state !== 'initial'"></div>
 
-<div class="loading-overlay" ng-if="game.manager.state === 'initial'"></div>
-<div class="instructions">
-  
-</div>
-
-
-<div class="results-splash card" ng-show="game.manager.resultsSplash !== null">
-  <div class="right" ng-show="game.manager.resultsSplash === true">
-    <i class="result-icon fa fa-check"></i>
-    <h2>You're right!</h2>
-    <p>Have you considered a career in globetrotting?</p>
+  <div class="loading-overlay" ng-if="game.manager.state === 'initial'"></div>
+  <div class="instructions">
+    
   </div>
 
-  <div class="wrong" ng-show="game.manager.resultsSplash === false">
-    <i class="result-icon fa fa-times"></i>
-    <h2>Nope, sorry.</h2>
+
+  <div class="results-splash card" ng-show="game.manager.resultsSplash !== null">
+    <div class="right" ng-show="game.manager.resultsSplash === true">
+      <i class="result-icon fa fa-check"></i>
+      <h2>You're right!</h2>
+      <p>Have you considered a career in globetrotting?</p>
+    </div>
+
+    <div class="wrong" ng-show="game.manager.resultsSplash === false">
+      <i class="result-icon fa fa-times"></i>
+      <h2>Nope, sorry.</h2>
+    </div>
+
+    <div class="button" ng-click="game.manager.goToNextQuestion()">
+      <i class="fa fa-arrow-right"></i>
+    </div>
   </div>
 
-  <div class="button" ng-click="game.manager.goToNextQuestion()">
-    <i class="fa fa-arrow-right"></i>
+  <h2 style="display: block; position: absolute; z-index: 3; top: 20%;">{{ game.manager.rightAnswer.city }}</h2>
+
+  <div class="start-button" ng-if="game.manager.state === 'initial' || game.manager.state === 'waiting'">
+    <button ng-click="game.manager.startGame()">{{ game.manager.state === 'initial' ? 'Loading...' : 'Start Game' }}</button> 
   </div>
-</div>
 
-<h2 style="display: block; position: absolute; z-index: 3; top: 20%;">{{ game.manager.rightAnswer.city }}</h2>
-
-<div class="start-button" ng-if="game.manager.state === 'initial' || game.manager.state === 'waiting'">
-  <button ng-click="game.manager.startGame()">{{ game.manager.state === 'initial' ? 'Loading...' : 'Start Game' }}</button> 
-</div>
-
-<div class="answers" ng-class="{show: game.manager.state === 'running' &amp;&amp; game.manager.resultsSplash === null}">
-  <ul>
-    <li id="answer-{{$index+1}}"
-        ng-repeat="answer in game.manager.currentAnswers" 
-        ng-click="game.manager.submitAnswer(answer)" 
-        ng-class="{
-          correct: 
-            game.manager.rightAnswer.city === answer.city &amp;&amp; 
-            game.manager.chosenAnswer.city === answer.city &amp;&amp;  
-            game.manager.resultsSplash !== null,
-          incorrect:
-            game.manager.rightAnswer.city !== answer.city &amp;&amp;
-            game.manager.chosenAnswer.city === answer.city &amp;&amp;
-            game.manager.resultsSplash !== null
-        }"
-    >
-      <h3>{{answer.city}}</h3>
-      <h5>{{answer.country}}</h5>
-    </li>
-  </ul>
+  <div class="answers" ng-class="{show: game.manager.state === 'running' &amp;&amp; game.manager.resultsSplash === null}">
+    <ul>
+      <li id="answer-{{$index+1}}"
+          ng-repeat="answer in game.manager.currentAnswers" 
+          ng-click="game.manager.submitAnswer(answer)" 
+          ng-class="{
+            correct: 
+              game.manager.rightAnswer.city === answer.city &amp;&amp; 
+              game.manager.chosenAnswer.city === answer.city &amp;&amp;  
+              game.manager.resultsSplash !== null,
+            incorrect:
+              game.manager.rightAnswer.city !== answer.city &amp;&amp;
+              game.manager.chosenAnswer.city === answer.city &amp;&amp;
+              game.manager.resultsSplash !== null
+          }"
+      >
+        <div class="number-label">{{$index+1}}</div>
+        <h3>{{answer.city}}</h3>
+        <h5>{{answer.country}}</h5>
+      </li>
+    </ul>
+  </div>
 </div>

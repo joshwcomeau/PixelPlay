@@ -102,6 +102,11 @@
   &.show {
     bottom: 0;
     transition: 1s;
+
+    .number-label {
+      top: -1rem;
+      transition: top 1.2s;
+    }
   }
 
   ul {
@@ -113,6 +118,7 @@
   li {
     display: block;
     position: absolute;
+    cursor: pointer;
     
     width: 32.332%;
     height: $headerHeight;
@@ -134,16 +140,46 @@
       background: darken($lightblue, 20%);
       transition: margin 0.5s;
       margin-top: -0.5rem;
+
+      .number-label {
+        background: darken($lightblue, 20%);
+      }
     }
 
     &.correct {
       background: $green;
       margin-top: 0;
+
+      .number-label {
+        background: $green;
+      }
+
     }
 
     &.incorrect {
       background: $red;
       margin-top: 0;
+
+      .number-label {
+        background: $red;
+      }
+    }
+
+    .number-label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      width: 2rem;
+      height: 2rem;
+      line-height: 2rem;
+      text-align: center;
+      background: $darkgrey;
+      font-size: 0.8rem;
+      border-radius: 100%;
+      transition: top 1s;
+
     }
 
     h3 {
@@ -207,7 +243,7 @@
   .result-icon  {
     font-size: 12rem;
     animation-duration: 5s;
-    animation-timing-function: cubic-bezier(0.5, 0.2, 0.3, 1.0);
+    
     animation-iteration-count: infinite;
   }
 
@@ -216,8 +252,9 @@
 
     i {
       margin-left: 1.9rem; // optical centering.
-      transform: rotate(-2deg);
+      transform: rotate(2deg);
       animation-name: glowing-checkmark;
+      animation-timing-function: cubic-bezier(0.5, 0.2, 0.3, 1.0);
     }
   }
   .wrong {
@@ -225,6 +262,7 @@
 
     i {
       animation-name: glowing-x;
+      animation-timing-function: ease-in-out;
     }
   }
 

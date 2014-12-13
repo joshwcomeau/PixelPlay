@@ -130,11 +130,6 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
         _.forEach(FetchPhotos.filteredPhotos, function(photo) {
           manager.photos.push(photo);
         });
-        unique_ids = _.chain(manager.photos)
-          .map(function(photo) { return photo.id })
-          .uniq()
-          .value();
-        console.log(unique_ids);
       });
     }
 

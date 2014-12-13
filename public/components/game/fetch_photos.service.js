@@ -12,7 +12,7 @@ function FetchPhotos($q) {
         image_size: 5,
         rpp:        100
       },
-      opts = _.merge(defaultOpts, givenOpts)
+      opts = _.merge(defaultOpts, givenOpts);
       _this    = this;
 
       _500px.api('/photos', opts, function (response) {

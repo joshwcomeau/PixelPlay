@@ -2,43 +2,31 @@
 
 
 @keyframes glowing-checkmark {
-  20%   { 
+  6%   { 
     color: $green2;
-    transform: rotate(-2deg);
+    transform: rotate(2deg);
     margin-left: 1.9rem;
+    text-shadow: none;
   }
-  30%  { 
+  16%  { 
     color: $green; 
-    transform: rotate(2deg) scale(1.2, 1.2);
+    transform: rotate(-5deg) scale(1.2, 1.2) rotateY(-30deg);
     margin-left: 2.7rem;
+    text-shadow: -7px 0 0 darken($green, 20%);
   }
-  40% { 
+  26% { 
     color: $green2; 
-    transform: rotate(-2deg);
+    transform: rotate(2deg);
     margin-left: 1.9rem;
+    text-shadow: none;
   }
 }
 
 @keyframes glowing-x {
-  20%   { 
-    color: $red;
-    transform: rotate(0deg);
-  }
-  22%  { 
-    transform: rotate(12deg) scale(1.4, 1.4);
-  }
-  24% {
-    color: #FF1104; 
-    transform: rotate(-15deg) scale(1.2, 1.2);
-  }
-  25% {
-    transform: rotate(10deg) scale(1.1, 1.1);
-  }
-  26% {
-    transform: rotate(-8deg) scale(0.9, 0.9);
-  }
-  28% { 
-    color: $red; 
-    transform: rotate(0deg);
-  }
+   6% {transform: rotateY(0); color: $red; text-shadow: none; }
+  10% {transform: rotateY(-30deg); text-shadow: -7px 0 0px darken($red, 20%); color: darken($red, 5%); }
+  14% {transform: rotateY(22deg);  text-shadow: 5px 0 0px darken($red, 20%); color: lighten($red, 5%); }
+  18% {transform: rotateY(-22deg); text-shadow: -5px 0 0px darken($red, 20%); color: darken($red, 3%); }
+  22% {transform: rotateY(20deg);  text-shadow: 4px 0 0px darken($red, 20%); color: lighten($red, 3%);}
+  26% {transform: rotateY(0); color: $red; text-shadow: none; }
 }
