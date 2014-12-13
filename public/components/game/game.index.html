@@ -1,6 +1,12 @@
 <div class="game-wrapper" answer-with-numbers>
   <div class="black-background"></div>
-  <div class="photo-container" 
+
+  <canvas class="photo-container" id="photo-canvas"
+    ng-show="game.manager.state === 'waiting' || game.manager.state === 'running'"
+    update-canvas
+  ></canvas>
+
+  <div class="photo-container" id="photo-div"
     ng-style="{'background-image':'url('+game.manager.currentPhoto.image_url+')'}" 
     ng-show="game.manager.state === 'waiting' || game.manager.state === 'running'" 
     ng-class="{blurred: game.manager.state === 'waiting', translucent: game.manager.resultsSplash !== null}"

@@ -40,6 +40,7 @@ angular.module('pixelPlay')
 
       geocoder.geocode({'latLng': latLng}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
+          console.log('results ok');
           if (results[1]) {
             console.log(getCityAndCountry(results));
             deferred.resolve({
@@ -52,6 +53,7 @@ angular.module('pixelPlay')
             });
           }
         } else {
+          console.log("Results not ok");
           alert('Geocoder failed due to: ' + status);
           deferred.reject({
             location: null
