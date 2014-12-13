@@ -3,12 +3,14 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
 
   this.initialize = function() {
     // Provided from GameController
-    this.countriesAndCities;
-    this.photos;
+    // this.countriesAndCities;
+    // this.photos;
 
 
     this.score = 0;
     this.combo = 0;
+
+    console.log(this.photos);
 
     this.loadedPhotos     = [];
     this.currentPhoto     = null;
@@ -61,14 +63,15 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
       startTime = new Date().getTime();
 
       question = manager.photos[0];
+      console.log("PRELOADING ", question);
 
       $q.all({
         getImage:    Preloader.preloadImages([question]), 
         getLocation: ReverseGeocoder.getLocation(question)
       }).then(function(results) {
+        console.log(results);
 
         question.location = results.getLocation.location;
-        console.log(question.location);
         manager.loadedPhotos.push(question);
 
         manager.photos.shift();
@@ -102,6 +105,18 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
           } else {
             preloadQuestion();
           }
+        }
+      }, function(results) {
+        // Something went wrong, so we want to skip this question and load a new one.
+        manager.photos.shift();
+        
+        endTime = new Date().getTime();
+        iterationLength = endTime - startTime;
+        if ( iterationLength < pauseLength ) {
+          timeLeftToWait = pauseLength - iterationLength;
+          $timeout(preloadQuestion, timeLeftToWait);
+        } else {
+          preloadQuestion();
         }
       });
     }
