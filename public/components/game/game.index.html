@@ -6,7 +6,7 @@
     ng-class="{blurred: game.manager.state === 'waiting', translucent: game.manager.resultsSplash !== null}"
   ></div>
 
-  <div class="score-wrapper">
+  <div class="score-wrapper" ng-show="game.manager.state === 'running'">
     <div class="score">{{game.manager.score}}</div>
     <div class="combo-row" id="combo-row-{{$index+1}}" ng-repeat="c in [0,1,2]" ng-show="game.manager.combo >= c*3">
       <div class="multiplier-indicator" ng-show="game.manager.combo >= (c+1)*3">
@@ -18,10 +18,24 @@
     </div>
   </div>
 
-  <div class="loading-bar" ng-style="{'width': game.manager.loadPercent + '%'}" ng-hide="game.manager.state !== 'initial'"></div>
+  <div class="loading-bar" ng-style="{'width': game.manager.loadPercent + '%'}" ng-hide="game.manager.state !== 'loading'"></div>
 
-  <div class="loading-overlay" ng-if="game.manager.state === 'initial'"></div>
-  <div class="instructions">
+  <div class="loading-overlay" ng-if="game.manager.state === 'initial' || game.manager.state === 'loading'"></div>
+  
+  <div class="instructions" ng-if="game.manager.state === 'initial' || game.manager.state === 'loading' || game.manager.state === 'waiting'">
+    <header>Select Game Mode</header>
+    <div class="game-mode-box" id="curated-box" ng-click="game.manager.selectMode('curated')">
+      <h2>Curated</h2>
+      <p>Blabla stuff about what this game mode is. You pick community-voted favorites</p>
+      <button ng-click="game.manager.startGame()">{{ game.manager.state === 'waiting' ? 'Start Game' : 'Loading...' }}</button> 
+    </div>
+    <div class="divider"></div>
+    <div class="game-mode-box" id="fresh-box" ng-click="game.manager.selectMode('fresh')">
+      <h2>Fresh</h2>
+      <p>Blabla stuff about what this game mode is. The daily submitted pics. Harder, more random. Daredevil option.</p>
+      <button ng-click="game.manager.startGame()">{{ game.manager.state === 'waiting' ? 'Start Game' : 'Loading...' }}</button> 
+    </div>
+
     
   </div>
 
@@ -45,9 +59,7 @@
 
   <h2 style="display: block; position: absolute; z-index: 3; top: 20%;">{{ game.manager.combo }}</h2>
 
-  <div class="start-button" ng-if="game.manager.state === 'initial' || game.manager.state === 'waiting'">
-    <button ng-click="game.manager.startGame()">{{ game.manager.state === 'initial' ? 'Loading...' : 'Start Game' }}</button> 
-  </div>
+  
 
   <div class="answers" ng-class="{show: game.manager.state === 'running' &amp;&amp; game.manager.resultsSplash === null}">
     <ul>

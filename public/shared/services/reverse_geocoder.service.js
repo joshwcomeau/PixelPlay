@@ -36,20 +36,25 @@ angular.module('pixelPlay')
       var lat       = photo_obj.latitude,
           lng       = photo_obj.longitude,
           latLng    = new google.maps.LatLng(lat, lng),
-          deferred  = $q.defer();
+          deferred  = $q.defer(),
+          geocoded_location;
 
       geocoder.geocode({'latLng': latLng}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           if (results[1]) {
-            console.log(getCityAndCountry(results));
-            deferred.resolve({
-              location: getCityAndCountry(results)
-            });
+            geocoded_location = getCityAndCountry(results);
+
+            if (geocoded_location.city && geocoded_location.country) {
+              deferred.resolve({
+                location: getCityAndCountry(results)
+              });
+            } else {
+              deferred.reject({
+                location: null
+              });
+            }
           } else {
             alert('No results found');
-            deferred.reject({
-              location: null
-            });
           }
         } else {
           alert('Geocoder failed due to: ' + status);

@@ -1,8 +1,10 @@
-function FetchPhotos($q) {
+function FetchPhotosFrom500px($q) {
   return {
     allPhotos:      [],
     filteredPhotos: [],
     maxSizePhotos:  [],
+
+    photos:         [],
 
     query: function(givenOpts) {
       console.log("Querying");
@@ -22,6 +24,8 @@ function FetchPhotos($q) {
           _this.allPhotos      = response.data.photos;
           _this.filteredPhotos = _this.appropriateForGame(response.data.photos);
           _this.maxSizePhotos  = _this.getMaxSize(_this.filteredPhotos);
+
+          _this.photos         = _this.maxSizePhotos;
 
           deferred.resolve({
             success: true
@@ -62,4 +66,4 @@ function FetchPhotos($q) {
   };
 }
 
-angular.module('pixelPlay.game').factory("FetchPhotos", ["$q", FetchPhotos]);
+angular.module('pixelPlay.game').factory("FetchPhotosFrom500px", ["$q", FetchPhotosFrom500px]);
