@@ -43,7 +43,8 @@ function FetchPhotos($q) {
           photo.latitude !== null && 
           photo.longitude !== null &&
           photo.width >= 1200 &&
-          photo.width > photo.height
+          photo.width > photo.height &&
+          photo.width <= (photo.height * 2)
         );
       });
     }

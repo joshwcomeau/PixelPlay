@@ -278,5 +278,53 @@
       animation-timing-function: ease-in-out;
     }
   }
+}
 
+.score-wrapper {
+  position: absolute;
+  z-index: 3;
+  right: 1rem;
+  top: $headerHeight * $sizeReduction + 1rem;
+
+  .score {
+    width: 4rem;
+    height: 4rem;
+    font-size: 3rem;
+    line-height: 4rem;
+    text-align: center;
+    background: rgba(0,0,0,0.8);
+    color: #FFF;
+  }
+
+  .combo-cell {
+    display: inline-block;
+    height: 19px;
+    width: 19px;
+    margin-top: 3px;
+    margin-right: 3px;
+    background: rgba(0,0,0,0.3);
+    transition: 1s;
+
+    &:last-of-type {
+      margin-right: 0;
+      width: 20px;
+    }
+
+    &.lit {
+      background: $gold;
+      transition: 1s;
+    }
+
+    &.lit-remove-active {
+      background: $red;
+    }
+
+    &.glued {
+      width: 21px;
+      margin: 0;
+      border-right: 1px solid $gold;
+      height: 15px;
+      transition: 1s;
+    }
+  }
 }

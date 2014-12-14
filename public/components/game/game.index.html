@@ -6,7 +6,14 @@
     ng-class="{blurred: game.manager.state === 'waiting', translucent: game.manager.resultsSplash !== null}"
   ></div>
 
-
+  <div class="score-wrapper">
+    <div class="score">{{game.manager.score}}</div>
+    <div class="first-combo-row">
+      <div class="combo-cell" ng-class="{lit: game.manager.combo, glued: game.manager.combo > 2}">
+      </div><div class="combo-cell" ng-class="{lit: game.manager.combo > 1, glued: game.manager.combo > 2}">
+      </div><div class="combo-cell" ng-class="{lit: game.manager.combo > 2, glued: game.manager.combo > 2}"></div>
+    </div>
+  </div>
 
   <div class="loading-bar" ng-style="{'width': game.manager.loadPercent + '%'}" ng-hide="game.manager.state !== 'initial'"></div>
 
@@ -33,7 +40,7 @@
     </div>
   </div>
 
-  <h2 style="display: block; position: absolute; z-index: 3; top: 20%;">{{ game.manager.rightAnswer.city }}</h2>
+  <h2 style="display: block; position: absolute; z-index: 3; top: 20%;">{{ game.manager.combo }}</h2>
 
   <div class="start-button" ng-if="game.manager.state === 'initial' || game.manager.state === 'waiting'">
     <button ng-click="game.manager.startGame()">{{ game.manager.state === 'initial' ? 'Loading...' : 'Start Game' }}</button> 
