@@ -30,3 +30,5 @@ build/Release
 .DS_Store
 
 # NPM and Bower libraries
+node_modules
+public/assets/libs
