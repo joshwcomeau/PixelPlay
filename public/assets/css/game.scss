@@ -4,17 +4,16 @@
 
 .photo-container {
   @include cover-everything;
-  z-index: 1;
+  z-index: 2;
   transition: 1s;
   opacity: 1;
 
   background-color: #222;
   background-size: cover;
+  background-position: center;
 
   &.blurred {
-    z-index: 2;
     filter: blur(35px);
-    transform: translate3d(0, 0, 0);
     top: -60px;
     left: -60px;
     right: -60px;
@@ -23,12 +22,8 @@
   }
 
   &.translucent {
-    @extend .blurred;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    opacity: 0.05;
+    filter: blur(35px);    
+    opacity: 0;
     transition: 1.2s;
   }
 }

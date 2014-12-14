@@ -49,7 +49,7 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
   this.preloadQuestions = function(iterations) {
     var index             = 0,
         currentIteration  = 0,
-        pauseLength       = 200,
+        pauseLength       = 350,
         question, startTime, endTime, iterationLength, timeLeftToWait;
 
     manager.loading = true;
@@ -109,14 +109,16 @@ function GameManager($interval, $timeout, $q, FetchPhotos, FetchCities, Preloade
       }, function(results) {
         // Something went wrong, so we want to skip this question and load a new one.
         manager.photos.shift();
-        
+
         endTime = new Date().getTime();
         iterationLength = endTime - startTime;
         if ( iterationLength < pauseLength ) {
           timeLeftToWait = pauseLength - iterationLength;
+          console.log("I should wait ", timeLeftToWait);
           $timeout(preloadQuestion, timeLeftToWait);
         } else {
-          preloadQuestion();
+          console.log("this iteration has taken ", iterationLength, ", which is longer than ", pauseLength);
+          // preloadQuestion();
         }
       });
     }
