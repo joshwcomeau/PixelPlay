@@ -295,8 +295,47 @@
     background: rgba(0,0,0,0.8);
     color: #FFF;
   }
+  .combo-row {
+    position: relative;
+  }
+
+  .multiplier-indicator {
+    position: absolute;
+    z-index: 4;
+    top: 0;
+    right: 4px;
+    height: 15px;
+    line-height: 17px;
+    font-weight: bold;
+    font-size: 12px;
+    opacity: 1;
+    transition: 1s;
+
+    &.ng-hide-add {
+      opacity: 0;
+      transition: 0;
+    }
+
+    &.ng-hide-add.ng-hide-add-active {
+      opacity: 0;
+    }
+
+    &.ng-hide-remove {
+      opacity: 0;
+      line-height: 21px;
+      display: block;
+    }
+
+    &.ng-hide-remove.ng-hide-remove-active {
+      opacity: 1;
+      line-height: 17px;
+    }
+
+  }
 
   .combo-cell {
+    position: relative;
+    z-index: 3;
     display: inline-block;
     height: 19px;
     width: 19px;
@@ -311,7 +350,7 @@
     }
 
     &.lit {
-      background: $gold;
+      background: $green2;
       transition: 1s;
     }
 
@@ -322,6 +361,7 @@
     &.glued {
       width: 21px;
       margin: 0;
+      background: $gold;
       border-right: 1px solid $gold;
       height: 15px;
       transition: 1s;
