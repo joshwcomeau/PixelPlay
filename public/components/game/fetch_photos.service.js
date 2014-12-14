@@ -2,8 +2,10 @@ function FetchPhotos($q) {
   return {
     allPhotos:      [],
     filteredPhotos: [],
+    maxSizePhotos:  [],
 
     query: function(givenOpts) {
+      console.log("Querying");
       var 
       deferred = $q.defer(),
       defaultOpts = {
@@ -19,6 +21,7 @@ function FetchPhotos($q) {
         if (response.success) {
           _this.allPhotos      = response.data.photos;
           _this.filteredPhotos = _this.appropriateForGame(response.data.photos);
+          _this.maxSizePhotos  = _this.getMaxSize(_this.filteredPhotos);
 
           deferred.resolve({
             success: true
@@ -46,6 +49,14 @@ function FetchPhotos($q) {
           photo.width > photo.height &&
           photo.width <= (photo.height * 2)
         );
+      });
+    },
+
+    getMaxSize: function(photos) {
+      console.log("maxSize");
+      return _.map(photos, function(photo) {
+        photo.image_url = photo.image_url.substr(0, photo.image_url.length-5) + "2048.jpg";
+        return photo;
       });
     }
   };

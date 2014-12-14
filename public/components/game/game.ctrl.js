@@ -1,6 +1,6 @@
 function GameController($scope, GameManager, FetchPhotos, bogusAnswers) {
   this.manager = GameManager;
-  GameManager.photos  = FetchPhotos.filteredPhotos;
+  GameManager.photos  = FetchPhotos.maxSizePhotos;
   GameManager.countriesAndCities  = bogusAnswers;
 
   GameManager.initialize();
