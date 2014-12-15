@@ -1,4 +1,4 @@
-function FetchPhotosFrom500px($q) {
+function FetchPhotosFromNode($q) {
   return {
     allPhotos:      [],
     filteredPhotos: [],
@@ -7,39 +7,39 @@ function FetchPhotosFrom500px($q) {
     photos:         [],
 
     query: function(givenOpts) {
-      console.log("Querying");
-      var 
-      deferred = $q.defer(),
-      defaultOpts = {
-        feature:    'fresh_today',
-        only:       'Urban Exploration',
-        image_size: 5,
-        rpp:        100
-      },
-      opts = _.merge(defaultOpts, givenOpts);
-      _this    = this;
+      // console.log("Querying");
+      // var 
+      // deferred = $q.defer(),
+      // defaultOpts = {
+      //   feature:    'fresh_today',
+      //   only:       'Urban Exploration',
+      //   image_size: 5,
+      //   rpp:        100
+      // },
+      // opts = _.merge(defaultOpts, givenOpts);
+      // _this    = this;
 
-      _500px.api('/photos', opts, function (response) {
-        if (response.success) {
-          _this.allPhotos      = response.data.photos;
-          _this.filteredPhotos = _this.appropriateForGame(response.data.photos);
-          _this.maxSizePhotos  = _this.getMaxSize(_this.filteredPhotos);
+      // _500px.api('/photos', opts, function (response) {
+      //   if (response.success) {
+      //     _this.allPhotos      = response.data.photos;
+      //     _this.filteredPhotos = _this.appropriateForGame(response.data.photos);
+      //     _this.maxSizePhotos  = _this.getMaxSize(_this.filteredPhotos);
 
-          _this.photos         = _this.maxSizePhotos;
+      //     _this.photos         = _this.maxSizePhotos;
 
-          deferred.resolve({
-            success: true
-          });
-        } else {
-          deferred.reject({
-            success:  false,
-            status:   response.status,
-            message:  response.error_message
-          });
-        }
-      });
+      //     deferred.resolve({
+      //       success: true
+      //     });
+      //   } else {
+      //     deferred.reject({
+      //       success:  false,
+      //       status:   response.status,
+      //       message:  response.error_message
+      //     });
+      //   }
+      // });
 
-      return deferred.promise;
+      // return deferred.promise;
     },
 
     // We need to strip out the photos that aren't well suited for our game.
@@ -66,4 +66,4 @@ function FetchPhotosFrom500px($q) {
   };
 }
 
-angular.module('pixelPlay.game').factory("FetchPhotosFrom500px", ["$q", FetchPhotosFrom500px]);
+angular.module('pixelPlay.game').factory("FetchPhotosFromNode", ["$q", FetchPhotosFromNode]);

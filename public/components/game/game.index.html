@@ -23,7 +23,7 @@
   <div class="loading-overlay" ng-if="game.manager.state === 'initial' || game.manager.state === 'loading'"></div>
   
   <div class="instructions" ng-if="game.manager.state === 'initial' || game.manager.state === 'loading' || game.manager.state === 'waiting'">
-    <header>Select Game Mode</header>
+    <header ng-class="{hide: game.manager.state === 'loading'}">Select Game Mode</header>
     <div class="game-mode-box" id="curated-box" ng-click="game.manager.selectMode('curated')">
       <h2>Curated</h2>
       <p>Blabla stuff about what this game mode is. You pick community-voted favorites</p>

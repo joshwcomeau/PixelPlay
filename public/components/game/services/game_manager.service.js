@@ -9,6 +9,8 @@ function GameManager($interval, $timeout, $q, FetchPhotosFrom500px, FetchCities,
     this.score = 0;
     this.combo = 0;
 
+    this.winWidth = $(window).width();
+
     this.photos           = [];
     this.loadedPhotos     = [];
     this.currentPhoto     = null;
@@ -36,7 +38,8 @@ function GameManager($interval, $timeout, $q, FetchPhotosFrom500px, FetchCities,
     console.log("SELECTING MODE ", mode)
     if (mode === 'fresh' && manager.state === 'initial') {
       manager.updateLoadBar();
-      FetchPhotosFrom500px.query()
+      console.log("Window width is ", this.winWidth)
+      FetchPhotosFrom500px.query({}, this.winWidth)
         .then(function(result) {
           manager.photos = FetchPhotosFrom500px.photos;
           manager.preloadQuestion(manager.numToPreload);

@@ -6,8 +6,8 @@ function FetchPhotosFrom500px($q) {
 
     photos:         [],
 
-    query: function(givenOpts) {
-      console.log("Querying");
+    query: function(givenOpts, winWidth) {
+      console.log("wheee");
       var 
       deferred = $q.defer(),
       defaultOpts = {
@@ -21,11 +21,13 @@ function FetchPhotosFrom500px($q) {
 
       _500px.api('/photos', opts, function (response) {
         if (response.success) {
-          _this.allPhotos      = response.data.photos;
-          _this.filteredPhotos = _this.appropriateForGame(response.data.photos);
-          _this.maxSizePhotos  = _this.getMaxSize(_this.filteredPhotos);
+          _this.allPhotos = response.data.photos;
+          _this.photos    = _this.appropriateForGame(response.data.photos);
+          
 
-          _this.photos         = _this.maxSizePhotos;
+          // Grab the XL ones if our window is bigger than 1200.
+          if ( winWidth > 1200 )
+            _this.photos = _this.getMaxSize(_this.photos);
 
           deferred.resolve({
             success: true
