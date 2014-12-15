@@ -27,8 +27,16 @@ function GameManager($interval, $timeout, $q, FetchPhotosFrom500px, FetchCities,
 
     
 
-    // Possible states are 'initial', 'loading', waiting', 'running', 'finished', 'error'
-    this.state = 'initial';
+    this.states = {
+      initial:  0,
+      loading:  1,
+      waiting:  2,
+      running:  3,
+      finished: 4,
+      error:    5
+    };
+
+    this.state = this.states.initial;
 
     // Possible modes are 'fresh' and 'curated'
     this.mode  = null;
@@ -36,9 +44,8 @@ function GameManager($interval, $timeout, $q, FetchPhotosFrom500px, FetchCities,
 
   this.selectMode = function(mode) {
     console.log("SELECTING MODE ", mode)
-    if (mode === 'fresh' && manager.state === 'initial') {
+    if (mode === 'fresh' && manager.state === manager.states.initial) {
       manager.updateLoadBar();
-      console.log("Window width is ", this.winWidth)
       FetchPhotosFrom500px.query({}, this.winWidth)
         .then(function(result) {
           manager.photos = FetchPhotosFrom500px.photos;
@@ -46,20 +53,20 @@ function GameManager($interval, $timeout, $q, FetchPhotosFrom500px, FetchCities,
           manager.updateLoadBar();
         });
 
-      manager.state = 'loading';
+      manager.state = manager.states.loading;
     }
   };
 
   this.startGame = function() {
-    this.state = 'running';
+    manager.state = manager.states.running;
   };
 
   // Our images are loaded and we're ready to go.
   // Set it up so that the user can click 'start'.
   this.setupGame = function() {
-    this.currentPhoto   = this.loadedPhotos.shift();
-    this.currentAnswers = this.buildAnswers();
-    this.state          = 'waiting';
+    manager.currentPhoto   = manager.loadedPhotos.shift();
+    manager.currentAnswers = manager.buildAnswers();
+    manager.state          = manager.states.waiting;
   };
 
   this.updateLoadBar = function() {
@@ -104,7 +111,7 @@ function GameManager($interval, $timeout, $q, FetchPhotosFrom500px, FetchCities,
         manager.waitAndPreloadAnother(startTime, pauseLength);
       } else {
         // Is this our initial load? If so, set up the game.
-        if ( manager.state === 'loading' )
+        if ( manager.state === manager.states.loading )
           manager.setupGame();
       }
     }, function(results) {

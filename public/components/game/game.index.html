@@ -2,11 +2,10 @@
   <div class="black-background"></div>
   <div class="photo-container" 
     ng-style="{'background-image':'url('+game.manager.currentPhoto.image_url+')'}" 
-    ng-show="game.manager.state === 'waiting' || game.manager.state === 'running'" 
-    ng-class="{blurred: game.manager.state === 'waiting', translucent: game.manager.resultsSplash !== null}"
+    ng-class="{blurred: game.manager.state === game.manager.states.waiting, translucent: game.manager.resultsSplash !== null}"
   ></div>
 
-  <div class="score-wrapper" ng-show="game.manager.state === 'running'">
+  <div class="score-wrapper" ng-show="game.manager.state === game.manager.states.running">
     <div class="score">{{game.manager.score}}</div>
     <div class="combo-row" id="combo-row-{{$index+1}}" ng-repeat="c in [0,1,2]" ng-show="game.manager.combo >= c*3">
       <div class="multiplier-indicator" ng-show="game.manager.combo >= (c+1)*3">
@@ -18,12 +17,12 @@
     </div>
   </div>
 
-  <div class="loading-bar" ng-style="{'width': game.manager.loadPercent + '%'}" ng-hide="game.manager.state !== 'loading'"></div>
+  <div class="loading-bar" ng-style="{'width': game.manager.loadPercent + '%'}" ng-show="game.manager.state === game.manager.states.loading"></div>
 
-  <div class="loading-overlay" ng-if="game.manager.state === 'initial' || game.manager.state === 'loading'"></div>
+  <div class="loading-overlay" ng-if="game.manager.state < game.manager.states.waiting"></div>
   
-  <div class="instructions" ng-if="game.manager.state === 'initial' || game.manager.state === 'loading' || game.manager.state === 'waiting'">
-    <header ng-class="{hide: game.manager.state === 'loading'}">Select Game Mode</header>
+  <div class="instructions card" ng-if="game.manager.state < game.manager.states.running">
+    <header ng-class="{hide: game.manager.state === game.manager.states.loading}">Select Game Mode</header>
     <div class="game-mode-box" id="curated-box" ng-click="game.manager.selectMode('curated')">
       <h2>Curated</h2>
       <p>Blabla stuff about what this game mode is. You pick community-voted favorites</p>
@@ -61,7 +60,7 @@
 
   
 
-  <div class="answers" ng-class="{show: game.manager.state === 'running' &amp;&amp; game.manager.resultsSplash === null}">
+  <div class="answers" ng-class="{show: game.manager.state === game.manager.states.running &amp;&amp; game.manager.resultsSplash === null}">
     <ul>
       <li id="answer-{{$index+1}}"
           ng-repeat="answer in game.manager.currentAnswers" 
