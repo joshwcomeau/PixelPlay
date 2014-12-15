@@ -37,7 +37,7 @@
   z-index: 2;
   transition: 1s;
   opacity: 1;
-  background: #222;
+  background: #111;
 
   &.ng-leave {
     transition: 4s;
@@ -56,7 +56,6 @@
   width: 60rem;
   height: 20rem;
   margin: auto;
-  border: 1px solid #F00;
 
   header {
     position: absolute;
@@ -74,12 +73,14 @@
     padding: 1rem;
     top: 6rem;
     height: 12rem;
+    color: #AAA;
 
     &:hover {
       background: darken($lightblue, 20%);
       transition: margin 0.5s;
       margin-top: -0.5rem;
-
+      text-shadow: 1px 1px 0px darken($lightblue, 28%);
+      color: #FFF;
     }
 
     &#fresh-box {

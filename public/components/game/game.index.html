@@ -21,7 +21,7 @@
 
   <div class="loading-overlay" ng-if="game.manager.state < game.manager.states.waiting"></div>
   
-  <div class="instructions card" ng-if="game.manager.state < game.manager.states.running">
+  <div class="instructions" ng-if="game.manager.state < game.manager.states.running">
     <header ng-class="{hide: game.manager.state === game.manager.states.loading}">Select Game Mode</header>
     <div class="game-mode-box" id="curated-box" ng-click="game.manager.selectMode('curated')">
       <h2>Curated</h2>
