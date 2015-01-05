@@ -7,8 +7,8 @@ var express         = require('express'),
 
 
 // Configuration ====================================================
-var db_url = process.env.DB_URL || 'mongodb://localhost/pixelplay';
-    port   = process.env.PORT   || 3000;
+var db_url = process.env.MONGOLAB_URI || 'mongodb://localhost/pixelplay';
+    port   = process.env.PORT         || 3000;
 
 mongoose.connect(db_url);  
 
