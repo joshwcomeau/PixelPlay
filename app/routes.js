@@ -1,6 +1,5 @@
 var path = require('path');
 var City = require('./models/city');
-var sleep = require('sleep');
 
 module.exports = function(app) {
   //// Server routes =========================================
